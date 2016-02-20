@@ -14,6 +14,10 @@ public class ProcessList {
 		return processenLijst;
 	}
 	
+	public Process getProces(int i){
+		return processenLijst.get(i);
+	}
+	
 	@XmlElement(name = "process")
 	public void setProcessenLijst(List<Process> processenLijst) {
 		this.processenLijst = processenLijst;
@@ -21,5 +25,5 @@ public class ProcessList {
 
 	public int getSize() {
 		return processenLijst.size();
-	}	
+	}
 }

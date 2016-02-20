@@ -16,10 +16,18 @@ public class Process {
 		runtime = servicetime + waittime;
 		return runtime;
 	}
+	
+	public void setRuntime(int t) {
+		this.runtime=t;
+	}
 
 	public int getNorRuntime() {
 		norRuntime = (servicetime+waittime)/servicetime;
 		return norRuntime;
+	}
+	
+	public void setNorRuntime(int t) {
+		this.norRuntime=t;
 	}
 
 	public int getWaittime() {
