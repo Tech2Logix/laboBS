@@ -1,5 +1,4 @@
 import java.io.*;
-import java.util.*;
 
 import javax.xml.bind.*;
 
@@ -24,6 +23,13 @@ public class Main {
 		//uitvoeren FCFS
 		Algoritmen al=new Algoritmen();
 		al.berekenFCFS(processenLijst);
+		
+		Percentiel p=new Percentiel(processenLijst); //opgelet, proceslijst is nu gesorteerd volgens servicetijd ipv. volgens aankomsttijd
+		//p.printList();//test
+		
+		
+		Grafiek g=new Grafiek("test","test",p);
+		g.maakGrafiek(p);
 		
 	}
 }

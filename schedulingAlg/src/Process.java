@@ -1,8 +1,9 @@
 import javax.xml.bind.annotation.*;
 
 @XmlRootElement( name = "process")
-public class Process {
+public class Process implements Comparable<Process>{
 	private int pid, arrivaltime, servicetime, endtime, runtime, norRuntime, waittime;
+	
 	
 	public int getEndtime() {
 		return endtime;
@@ -63,6 +64,10 @@ public class Process {
 	@XmlElement(name = "servicetime")
 	public void setServicetime(int servicetime) {
 		this.servicetime = servicetime;
+	}
+	
+	public int compareTo(Process compareProcess){
+		return this.servicetime - compareProcess.servicetime;
 	}
 	
 }
