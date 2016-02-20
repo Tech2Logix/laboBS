@@ -17,7 +17,7 @@ public class Grafiek extends ApplicationFrame{
 	         true,true,false);
 	         
 	      ChartPanel chartPanel = new ChartPanel( lineChart );
-	      chartPanel.setPreferredSize( new java.awt.Dimension( 600 , 400 ) );
+	      chartPanel.setPreferredSize( new java.awt.Dimension( 1000 , 700 ) );
 	      setContentPane( chartPanel );
 	   }
 

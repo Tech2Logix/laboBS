@@ -19,8 +19,16 @@ public class Algoritmen {
 			huidigProces.setNorRuntime((tijd-aankomstTijd)/bedieningsTijd);
 			huidigProces.setWaittime(tijd-aankomstTijd-bedieningsTijd);
 			loper++;
-		}
-
+		}	
+	}
+	public void berekenRR(ProcessList processen){
 		
+	}
+	
+	public void berekenHRRN(){
+		
+	}
+	public void berekenMFM(){
+	
 	}
 }
