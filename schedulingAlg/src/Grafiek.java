@@ -35,7 +35,7 @@ public class Grafiek extends ApplicationFrame{
 	        final XYSeries series1 = new XYSeries("FCFS");
 	        for(int i=0; i<100; i++) {
 	        	System.out.println(i+"   NorRuntime: " + p.getProces(i).getNorRuntime() + "      ServTime:" + p.getProces(i).getServicetime());
-	        	series1.addOrUpdate(p.getProces(i).getNorRuntime(), p.getProces(i).getServicetime());
+	        	series1.addOrUpdate(p.getProces(i).getServicetime(), p.getProces(i).getNorRuntime());
 	        }
 	        System.out.println("dOneeeeeeeeeeeee");
 	               
@@ -47,7 +47,7 @@ public class Grafiek extends ApplicationFrame{
 	        final XYSeries series2 = new XYSeries("RR");
 	        for(int i=0; i<100; i++) {
 	        	System.out.println(i+"   NorRuntime: " + p.getProces(i).getNorRuntime() + "      ServTime:" + p.getProces(i).getServicetime());
-	        	//series2.add(p.getProces(i).getNorRuntime(), p.getProces(i).getServicetime());
+	        	series2.add(p.getProces(i).getServicetime(), p.getProces(i).getNorRuntime());
 	        }
 	        
 	        werk = pl;
@@ -55,7 +55,7 @@ public class Grafiek extends ApplicationFrame{
 			p=new Percentiel(werk); //opgelet, proceslijst is nu gesorteerd volgens servicetijd ipv. volgens aankomsttijd
 	        final XYSeries series3 = new XYSeries("HRRN");
 	        for(int i=0; i<100; i++) {
-	        	//series3.add(p.getProces(i).getNorRuntime(), p.getProces(i).getServicetime());
+	        	series3.add(p.getProces(i).getServicetime(), p.getProces(i).getNorRuntime());
 	        }
 	        
 	        werk = pl;
@@ -63,7 +63,7 @@ public class Grafiek extends ApplicationFrame{
 			p=new Percentiel(werk); //opgelet, proceslijst is nu gesorteerd volgens servicetijd ipv. volgens aankomsttijd
 	        final XYSeries series4 = new XYSeries("MFM");
 	        for(int i=0; i<100; i++) {
-	        	//series4.add(p.getProces(i).getNorRuntime(), p.getProces(i).getServicetime());
+	        	series4.add(p.getProces(i).getServicetime(), p.getProces(i).getNorRuntime());
 	        }
 
 	        final XYSeriesCollection dataset = new XYSeriesCollection();
@@ -79,8 +79,8 @@ public class Grafiek extends ApplicationFrame{
 	    private JFreeChart createChart(final XYDataset dataset) {
 	        final JFreeChart chart = ChartFactory.createXYLineChart(
 	            "Scheduling algoritmes",      						// chart title
-	            "Genormaliseerde omlooptijd",                 	    // x axis label
-	            "Bedieningstijd",                      				// y axis label
+	            "Bedieningstijd",                 	    // x axis label
+	            "Genormaliseerde omlooptijd",                      				// y axis label
 	            dataset,                  							// data
 	            PlotOrientation.VERTICAL,
 	            true,                     							// include legend

@@ -1,14 +1,14 @@
 import java.util.*;
 
 public class Percentiel {
-	private List<Process> percentielen;
+	private LinkedList<Process> percentielen;
 	
 	Percentiel(ProcessList processenLijst){
 		
 		processenLijst.sorteerOpServiceTijd();
 		//processenLijst.printList(); //test
 		
-		percentielen=new ArrayList<Process>();
+		percentielen=new LinkedList<Process>();
 		int nProcessenPerPercentiel=processenLijst.getSize()/100;
 		int bedieningstijd=0, genorOmlooptijd=0, wachttijd=0;
 		Process p;
@@ -26,7 +26,7 @@ public class Percentiel {
 		}
 		
 	}
-	public List<Process> getPercentielList(){
+	public LinkedList<Process> getPercentielList(){
 		return percentielen;
 	}
 	public Process getProces(int i){

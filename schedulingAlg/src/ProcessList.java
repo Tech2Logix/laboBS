@@ -4,16 +4,20 @@ import javax.xml.bind.annotation.*;
 
 @XmlRootElement(name = "processlist")
 public class ProcessList {
-	private List<Process> processenLijst;
+	private LinkedList<Process> processenLijst;
 	
 	public ProcessList(){	
 	}
 	
 	public ProcessList(ProcessList pl) {
-		this.processenLijst = pl.getProcessenLijst();
+		this.processenLijst = new LinkedList<Process>();
+		for(Process p : pl.getProcessenLijst()) {
+			processenLijst.add(p);
+			//System.out.println("...");
+		}
 	}
 	
-	public List<Process> getProcessenLijst() {
+	public LinkedList<Process> getProcessenLijst() {
 		return processenLijst;
 	}
 	
@@ -22,7 +26,7 @@ public class ProcessList {
 	}
 	
 	@XmlElement(name = "process")
-	public void setProcessenLijst(List<Process> processenLijst) {
+	public void setProcessenLijst(LinkedList<Process> processenLijst) {
 		this.processenLijst = processenLijst;
 	}
 
