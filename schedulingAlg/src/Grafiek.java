@@ -7,6 +7,8 @@ import org.jfree.ui.RefineryUtilities;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
+import org.jfree.chart.renderer.xy.XYSplineRenderer;
+import org.jfree.chart.axis.*;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
@@ -96,8 +98,14 @@ public class Grafiek extends ApplicationFrame{
 	        plot.setBackgroundPaint(Color.lightGray);
 	        plot.setDomainGridlinePaint(Color.white);
 	        plot.setRangeGridlinePaint(Color.white);
+	        LogAxis logAxis = new LogAxis("test");
+	        logAxis.setMinorTickMarksVisible(true);
+	        logAxis.setAutoRange(true);
+	        //plot.setRangeAxis(logAxis);
 	        
 	        final XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer();
+	        
+	        //final XYSplineRenderer renderer = new XYSplineRenderer(); //smoother?
 	        renderer.setSeriesShapesVisible(0, false);
 	        renderer.setSeriesShapesVisible(1, false);
 	        renderer.setSeriesShapesVisible(2, false);
@@ -105,8 +113,8 @@ public class Grafiek extends ApplicationFrame{
 	        plot.setRenderer(renderer);
 
 	        // change the auto tick unit selection to integer units only...
-	        final NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
-	        rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
+	        //final NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
+	        //rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
 	        // OPTIONAL CUSTOMISATION COMPLETED.
 	                
 	        return chart;
