@@ -29,38 +29,41 @@ public class Grafiek extends ApplicationFrame{
 	 private XYDataset createDataset(ProcessList pl) {
 	        Algoritmen alg = new Algoritmen();
 	        
-	        ProcessList werk = pl;
-			alg.berekenFCFS(pl);
-			Percentiel p=new Percentiel(pl); //opgelet, proceslijst is nu gesorteerd volgens servicetijd ipv. volgens aankomsttijd
+	        ProcessList werk = new ProcessList(pl);
+			alg.berekenFCFS(werk);
+			Percentiel p=new Percentiel(werk); //opgelet, proceslijst is nu gesorteerd volgens servicetijd ipv. volgens aankomsttijd
 	        final XYSeries series1 = new XYSeries("FCFS");
 	        for(int i=0; i<100; i++) {
 	        	System.out.println(i+"   NorRuntime: " + p.getProces(i).getNorRuntime() + "      ServTime:" + p.getProces(i).getServicetime());
 	        	series1.addOrUpdate(p.getProces(i).getNorRuntime(), p.getProces(i).getServicetime());
 	        }
 	        System.out.println("dOneeeeeeeeeeeee");
+	               
 	        
-	        werk = pl;
-			alg.berekenRR(pl);
-			p=new Percentiel(pl); //opgelet, proceslijst is nu gesorteerd volgens servicetijd ipv. volgens aankomsttijd
+	        
+	        werk = new ProcessList(pl);
+			alg.berekenRR(werk);
+			p=new Percentiel(werk); //opgelet, proceslijst is nu gesorteerd volgens servicetijd ipv. volgens aankomsttijd
 	        final XYSeries series2 = new XYSeries("RR");
 	        for(int i=0; i<100; i++) {
-	        	series2.add(p.getProces(i).getNorRuntime(), p.getProces(i).getServicetime());
+	        	System.out.println(i+"   NorRuntime: " + p.getProces(i).getNorRuntime() + "      ServTime:" + p.getProces(i).getServicetime());
+	        	//series2.add(p.getProces(i).getNorRuntime(), p.getProces(i).getServicetime());
 	        }
 	        
 	        werk = pl;
-			alg.berekenHRRN(pl);
-			p=new Percentiel(pl); //opgelet, proceslijst is nu gesorteerd volgens servicetijd ipv. volgens aankomsttijd
+			alg.berekenHRRN(werk);
+			p=new Percentiel(werk); //opgelet, proceslijst is nu gesorteerd volgens servicetijd ipv. volgens aankomsttijd
 	        final XYSeries series3 = new XYSeries("HRRN");
 	        for(int i=0; i<100; i++) {
-	        	series3.add(p.getProces(i).getNorRuntime(), p.getProces(i).getServicetime());
+	        	//series3.add(p.getProces(i).getNorRuntime(), p.getProces(i).getServicetime());
 	        }
 	        
 	        werk = pl;
-			alg.berekenMFM(pl);
-			p=new Percentiel(pl); //opgelet, proceslijst is nu gesorteerd volgens servicetijd ipv. volgens aankomsttijd
+			alg.berekenMFM(werk);
+			p=new Percentiel(werk); //opgelet, proceslijst is nu gesorteerd volgens servicetijd ipv. volgens aankomsttijd
 	        final XYSeries series4 = new XYSeries("MFM");
 	        for(int i=0; i<100; i++) {
-	        	series4.add(p.getProces(i).getNorRuntime(), p.getProces(i).getServicetime());
+	        	//series4.add(p.getProces(i).getNorRuntime(), p.getProces(i).getServicetime());
 	        }
 
 	        final XYSeriesCollection dataset = new XYSeriesCollection();
