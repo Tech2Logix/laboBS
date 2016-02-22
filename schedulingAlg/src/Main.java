@@ -2,15 +2,15 @@ import java.io.*;
 
 import javax.xml.bind.*;
 
-//testpush? aangekomen!
-
+import org.jfree.ui.RefineryUtilities;
 
 public class Main {
 
 	public static void main(String[] args) {
 		ProcessList processenLijst=new ProcessList();
+		//lees xml bestand in
 		try {
-			File file = new File("processen20000.xml");
+			File file = new File("processen10000.xml");
 			JAXBContext jaxbContext = JAXBContext.newInstance(ProcessList.class);
 			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 			processenLijst = (ProcessList) jaxbUnmarshaller.unmarshal(file);
@@ -19,17 +19,13 @@ public class Main {
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		}
-				
-		//uitvoeren FCFS
-		Algoritmen al=new Algoritmen();
-		al.berekenFCFS(processenLijst);
+
 		
-		Percentiel p=new Percentiel(processenLijst); //opgelet, proceslijst is nu gesorteerd volgens servicetijd ipv. volgens aankomsttijd
-		//p.printList();//test
-		
-		
-		Grafiek g=new Grafiek("test","test",p);
-		g.maakGrafiek(p);
+		//genereer grafiek
+		Grafiek g = new Grafiek("Test", processenLijst);
+		g.pack();
+        RefineryUtilities.centerFrameOnScreen(g);
+        g.setVisible(true);
 		
 	}
 }

@@ -3,6 +3,7 @@ public class Algoritmen {
 	private int tijd,loper,grootteList,bedieningsTijd,aankomstTijd;
 	Process huidigProces;
 	public void berekenFCFS(ProcessList processen){
+		processen.setAlgoritme("FCFS");
 		tijd =0; 
 		loper=0;
 		grootteList=processen.getSize();
@@ -21,14 +22,13 @@ public class Algoritmen {
 			loper++;
 		}	
 	}
+	
 	public void berekenRR(ProcessList processen){
-		
 	}
 	
-	public void berekenHRRN(){
-		
+	public void berekenHRRN(ProcessList processen){
 	}
-	public void berekenMFM(){
 	
+	public void berekenMFM(ProcessList processen){
 	}
 }

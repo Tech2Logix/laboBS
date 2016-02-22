@@ -4,6 +4,7 @@ public class Percentiel {
 	private List<Process> percentielen;
 	
 	Percentiel(ProcessList processenLijst){
+		
 		processenLijst.sorteerOpServiceTijd();
 		//processenLijst.printList(); //test
 		

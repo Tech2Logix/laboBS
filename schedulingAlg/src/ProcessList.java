@@ -4,6 +4,7 @@ import javax.xml.bind.annotation.*;
 
 @XmlRootElement(name = "processlist")
 public class ProcessList {
+	private String gebruiktAlgoritme;
 	private List<Process> processenLijst;
 	
 	public ProcessList(){	
@@ -32,6 +33,14 @@ public class ProcessList {
 	
 	public void addProcess(Process p){
 		processenLijst.add(p);
+	}
+	
+	public void setAlgoritme(String n) {
+		this.gebruiktAlgoritme = n;
+	}
+	
+	public String getAlgoritme() {
+		return gebruiktAlgoritme;
 	}
 	
 	//voor testen
