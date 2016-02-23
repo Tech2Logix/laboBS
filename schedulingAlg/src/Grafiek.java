@@ -36,10 +36,10 @@ public class Grafiek extends ApplicationFrame{
 			Percentiel p=new Percentiel(werk); //opgelet, proceslijst is nu gesorteerd volgens servicetijd ipv. volgens aankomsttijd
 	        final XYSeries series1 = new XYSeries("FCFS");
 	        for(int i=0; i<100; i++) {
-	        	System.out.println(i+"   NorRuntime: " + p.getProces(i).getNorRuntime() + "      ServTime:" + p.getProces(i).getServicetime());
+	        	//System.out.println(i+"   NorRuntime: " + p.getProces(i).getNorRuntime() + "      ServTime:" + p.getProces(i).getServicetime());
 	        	series1.addOrUpdate(p.getProces(i).getServicetime(), p.getProces(i).getNorRuntime());
 	        }
-	        System.out.println("dOneeeeeeeeeeeee");
+	        System.out.println("FSFC done");
 	               
 	        
 	        
@@ -48,29 +48,33 @@ public class Grafiek extends ApplicationFrame{
 			p=new Percentiel(werk); //opgelet, proceslijst is nu gesorteerd volgens servicetijd ipv. volgens aankomsttijd
 	        final XYSeries series2 = new XYSeries("RR");
 	        for(int i=0; i<100; i++) {
-	        	System.out.println(i+"   NorRuntime: " + p.getProces(i).getNorRuntime() + "      ServTime:" + p.getProces(i).getServicetime());
+	        	//System.out.println(i+"   NorRuntime: " + p.getProces(i).getNorRuntime() + "      ServTime:" + p.getProces(i).getServicetime());
 	        	series2.add(p.getProces(i).getServicetime(), p.getProces(i).getNorRuntime());
 	        }
+	        System.out.println("RR done");
 	        
-	        werk = pl;
+	        werk = new ProcessList(pl);
 			alg.berekenHRRN(werk);
 			p=new Percentiel(werk); //opgelet, proceslijst is nu gesorteerd volgens servicetijd ipv. volgens aankomsttijd
 	        final XYSeries series3 = new XYSeries("HRRN");
 	        for(int i=0; i<100; i++) {
+	        	//System.out.println(i+"   NorRuntime: " + p.getProces(i).getNorRuntime() + "      ServTime:" + p.getProces(i).getServicetime());
 	        	series3.add(p.getProces(i).getServicetime(), p.getProces(i).getNorRuntime());
 	        }
+	        System.out.println("HRRN done");
 	        
-	        werk = pl;
+	        werk = new ProcessList(pl);
 			alg.berekenMFM(werk);
 			p=new Percentiel(werk); //opgelet, proceslijst is nu gesorteerd volgens servicetijd ipv. volgens aankomsttijd
 	        final XYSeries series4 = new XYSeries("MFM");
 	        for(int i=0; i<100; i++) {
+	        	//System.out.println(i+"   NorRuntime: " + p.getProces(i).getNorRuntime() + "      ServTime:" + p.getProces(i).getServicetime());
 	        	series4.add(p.getProces(i).getServicetime(), p.getProces(i).getNorRuntime());
 	        }
+	        System.out.println("FSFC done");
 
 	        final XYSeriesCollection dataset = new XYSeriesCollection();
 	        dataset.addSeries(series1);
-	        System.out.println("doneeeee v2");
 	        dataset.addSeries(series2);
 	        dataset.addSeries(series3);
 	        dataset.addSeries(series4);
@@ -98,14 +102,15 @@ public class Grafiek extends ApplicationFrame{
 	        plot.setBackgroundPaint(Color.lightGray);
 	        plot.setDomainGridlinePaint(Color.white);
 	        plot.setRangeGridlinePaint(Color.white);
-	        LogAxis logAxis = new LogAxis("test");
+	        LogAxis logAxis = new LogAxis("Genormaliseerde omlooptijd"); //test...
 	        logAxis.setMinorTickMarksVisible(true);
-	        logAxis.setAutoRange(true);
-	        //plot.setRangeAxis(logAxis);
+	        //logAxis.setAutoRange(true);
 	        
-	        final XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer();
+	        plot.setRangeAxis(logAxis);
 	        
-	        //final XYSplineRenderer renderer = new XYSplineRenderer(); //smoother?
+	        //final XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer();
+	        
+	        final XYSplineRenderer renderer = new XYSplineRenderer(); //smoother?
 	        renderer.setSeriesShapesVisible(0, false);
 	        renderer.setSeriesShapesVisible(1, false);
 	        renderer.setSeriesShapesVisible(2, false);

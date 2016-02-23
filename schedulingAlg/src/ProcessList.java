@@ -7,6 +7,7 @@ public class ProcessList {
 	private LinkedList<Process> processenLijst;
 	
 	public ProcessList(){	
+		this.processenLijst = new LinkedList<Process>();
 	}
 	
 	public ProcessList(ProcessList pl) {
@@ -40,6 +41,10 @@ public class ProcessList {
 	
 	public void addProcess(Process p){
 		processenLijst.add(p);
+	}
+	
+	public void deleteProcess(Process p) {
+		processenLijst.remove(p);
 	}
 	
 	//voor testen
