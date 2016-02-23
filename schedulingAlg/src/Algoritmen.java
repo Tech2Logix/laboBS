@@ -48,7 +48,7 @@ public class Algoritmen {
 			tijd += bedieningsTijd;
 			huidigProces.setEndtime(tijd);
 			huidigProces.setRuntime(tijd - aankomstTijd);
-			huidigProces.setNorRuntime((tijd - aankomstTijd) / bedieningsTijd);
+			huidigProces.setNorRuntime(((double)(tijd - aankomstTijd)) / bedieningsTijd);
 			huidigProces.setWaittime(tijd - aankomstTijd - bedieningsTijd);
 			loper++;
 		}
@@ -102,7 +102,7 @@ public class Algoritmen {
 			tijd += bedieningsTijd;
 			huidigProces.setEndtime(tijd);
 			huidigProces.setRuntime(tijd - aankomstTijd);
-			huidigProces.setNorRuntime((tijd - aankomstTijd) / bedieningsTijd);
+			huidigProces.setNorRuntime(((double)(tijd - aankomstTijd)) / bedieningsTijd);
 			huidigProces.setWaittime(tijd - aankomstTijd - bedieningsTijd);
 			loper++;
 		}

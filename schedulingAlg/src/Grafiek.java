@@ -102,11 +102,19 @@ public class Grafiek extends ApplicationFrame{
 	        plot.setBackgroundPaint(Color.lightGray);
 	        plot.setDomainGridlinePaint(Color.white);
 	        plot.setRangeGridlinePaint(Color.white);
-	        LogAxis logAxis = new LogAxis("Genormaliseerde omlooptijd"); //test...
+	        /*LogAxis logAxis = new LogAxis("Genormaliseerde omlooptijd"); //test...
 	        logAxis.setMinorTickMarksVisible(true);
-	        //logAxis.setAutoRange(true);
+	        
+	        logAxis.setAutoRange(true);
 	        
 	        plot.setRangeAxis(logAxis);
+	        */
+	        
+	        //ValueAxis vaxis = new LogAxis("Genormaliseerde omlooptijd");
+	        NumberAxis domein = (NumberAxis) plot.getDomainAxis();
+	        domein.setRange(0.00, 100.00);
+	        
+	        
 	        
 	        //final XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer();
 	        
@@ -116,6 +124,7 @@ public class Grafiek extends ApplicationFrame{
 	        renderer.setSeriesShapesVisible(2, false);
 	        renderer.setSeriesShapesVisible(3, false);
 	        plot.setRenderer(renderer);
+	        
 
 	        // change the auto tick unit selection to integer units only...
 	        //final NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
