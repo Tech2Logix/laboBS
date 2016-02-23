@@ -102,6 +102,7 @@ public class Grafiek extends ApplicationFrame{
 	        plot.setBackgroundPaint(Color.lightGray);
 	        plot.setDomainGridlinePaint(Color.white);
 	        plot.setRangeGridlinePaint(Color.white);
+	        
 	        /*LogAxis logAxis = new LogAxis("Genormaliseerde omlooptijd"); //test...
 	        logAxis.setMinorTickMarksVisible(true);
 	        

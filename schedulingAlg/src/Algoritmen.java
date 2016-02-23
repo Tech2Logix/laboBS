@@ -29,6 +29,7 @@ public class Algoritmen {
 		}
 	}
 
+	
 	public void berekenRR(ProcessList processen) {
 		tijd = 0;
 		loper = 0;

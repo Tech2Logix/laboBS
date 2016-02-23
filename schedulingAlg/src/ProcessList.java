@@ -7,6 +7,7 @@ public class ProcessList {
 	private LinkedList<Process> processenLijst;
 	
 	public ProcessList(){	
+		
 		this.processenLijst = new LinkedList<Process>();
 	}
 	

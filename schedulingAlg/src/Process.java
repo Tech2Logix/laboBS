@@ -15,6 +15,7 @@ public class Process implements Comparable<Process>{
 		this.endtime = endtime;
 	}
 
+	
 	public int getRuntime() {
 		runtime = servicetime + waittime;
 		return runtime;
