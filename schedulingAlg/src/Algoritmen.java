@@ -1,8 +1,12 @@
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.PriorityQueue;
+import java.util.Queue;
 
-public class Algoritmen {
+public class Algoritmen{
 	private int tijd, loper, grootteList, bedieningsTijd, aankomstTijd;
 	Process huidigProces;
 
@@ -60,7 +64,6 @@ public class Algoritmen {
 				tijdsbeurt=Math.min(overigeBedieningstijd, timeSlices);
 				tijd+=tijdsbeurt;
 				huidigProces.pasRemainingServicetimeAan(tijdsbeurt);
-				System.out.println("proces: "+huidigProces.getPid()+" overigeService tijd: "+huidigProces.getRemainingServicetime()+" tijd: "+tijd);
 				
 				if(huidigProces.getRemainingServicetime()==0){  //als proces voltooid is
 					huidigProces.setEndtime(tijd);
@@ -95,8 +98,6 @@ public class Algoritmen {
 		}
 	}
 
-
-	
 	
 	
 	public void berekenHRRN(ProcessList processen) {
@@ -153,6 +154,79 @@ public class Algoritmen {
 		}
 	}
 
-	public void berekenMFM(ProcessList processen) {
+	public void berekenMLFB(ProcessList processen,int mode){  //mode 0: q=2^i , mode 1: q=i
+		processen.zetRemainingTerug(); //remainingServicetime stond nog op 0 door berekenRR()
+		int huidigePrioriteit=1, tijdsBeurt;
+		tijd=processen.getProces(0).getArrivaltime();
+		loper=1;
+		grootteList = processen.getSize();
+		boolean mogelijksNieuwProces;
+		
+		System.out.println(processen.getProces(0).getRemainingServicetime());
+		
+		List<Process> prioriteit1 = new LinkedList<Process>();
+		List<Process> prioriteit2 = new LinkedList<Process>();
+		List<Process> prioriteit3 = new LinkedList<Process>();
+		List<Process> prioriteit4 = new LinkedList<Process>();
+		List<List<Process>> queues =new ArrayList<List<Process>>();
+		queues.add(prioriteit1);
+		queues.add(prioriteit2);
+		queues.add(prioriteit3);
+		queues.add(prioriteit4);
+		
+		int [] tijdsBeurten = {1,2,3,4};  
+		if(mode==0){
+			tijdsBeurten[2] = 4;
+			tijdsBeurten[3] = 8;
+		}	
+		prioriteit1.add(processen.getProces(0));
+		
+		while(loper < grootteList){
+			System.out.println("huidige prioriteit: "+huidigePrioriteit);
+			if(queues.get(huidigePrioriteit-1).isEmpty()){
+				System.out.println("huidigePrioriteit "+huidigePrioriteit+" is leeg");
+				if(huidigePrioriteit!=4){
+					huidigePrioriteit++;
+				}
+				else{           //als er in geen enkele queue nog een taak zit => tijdssprong
+					tijd=queues.get(huidigePrioriteit-1).get(loper).getArrivaltime();
+					huidigePrioriteit=1;
+					loper++;
+				}
+			}
+			
+			else{
+				huidigProces=queues.get(huidigePrioriteit-1).get(0);
+				System.out.println("overblijvende service tijd "+huidigProces.getRemainingServicetime());
+				tijdsBeurt=Math.min(huidigProces.getRemainingServicetime(), tijdsBeurten[huidigePrioriteit-1]);
+				tijd+=tijdsBeurt;
+				huidigProces.pasRemainingServicetimeAan(tijdsBeurt);
+				System.out.println("overblijvende service tijd "+huidigProces.getRemainingServicetime());
+				if(huidigProces.getRemainingServicetime()==0){
+					System.out.println("test2");
+					huidigProces.setEndtime(tijd);
+					huidigProces.setRuntime(tijd=huidigProces.getArrivaltime());
+					huidigProces.setNorRuntime(huidigProces.getRuntime() / huidigProces.getServicetime());
+					huidigProces.setWaittime(huidigProces.getRuntime() - huidigProces.getServicetime());
+					queues.get(huidigePrioriteit-1).remove(huidigProces);
+				}
+				else if (huidigePrioriteit!=4){
+					System.out.println("test");
+					queues.get(huidigePrioriteit).add(huidigProces);
+					queues.get(huidigePrioriteit-1).remove(huidigProces);
+				}
+				
+				//na iedere taak kijken of in prioriteit 1 nog een taak bijkomt:
+				mogelijksNieuwProces=true;
+				while(mogelijksNieuwProces){
+					if(processen.getProces(loper).getArrivaltime() <= tijd){
+						prioriteit1.add(processen.getProces(loper));
+						loper++;
+						huidigePrioriteit=1; //indien geen nieuw process mag de huidige prioriteit blijven waar hij was
+					}
+				}
+				
+			}
+		}
 	}
 }

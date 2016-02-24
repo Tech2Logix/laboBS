@@ -69,6 +69,7 @@ public class Process implements Comparable<Process>{
 	public void setServicetime(int servicetime) {
 		this.servicetime = servicetime;
 		remainingServicetime = servicetime;
+		//System.out.println(pid + " remainingSericeTime: "+remainingServicetime);
 	}
 	
 	public int getRemainingServicetime(){
@@ -89,6 +90,10 @@ public class Process implements Comparable<Process>{
 	
 	public int compareTo(Process compareProcess){
 		return this.servicetime - compareProcess.servicetime;
+	}
+	
+	public void setRemaining(){
+		remainingServicetime = servicetime;
 	}
 	
 }

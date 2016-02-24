@@ -48,6 +48,12 @@ public class ProcessList {
 		processenLijst.remove(p);
 	}
 	
+	public void zetRemainingTerug(){
+		for (Process p: processenLijst){
+			p.setRemaining();
+		}
+	}
+	
 	//voor testen
 	public void printList(){
 		int max=processenLijst.size();
@@ -55,4 +61,5 @@ public class ProcessList {
 			System.out.println(processenLijst.get(i).getServicetime());
 		}
 	}
+	
 }
