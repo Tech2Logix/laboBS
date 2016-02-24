@@ -10,7 +10,7 @@ public class Main {
 		ProcessList processenLijst=new ProcessList();
 		//lees xml bestand in
 		try {
-			File file = new File("processen10000.xml");
+			File file = new File("processen1000.xml");
 			JAXBContext jaxbContext = JAXBContext.newInstance(ProcessList.class);
 			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 			processenLijst = (ProcessList) jaxbUnmarshaller.unmarshal(file);
