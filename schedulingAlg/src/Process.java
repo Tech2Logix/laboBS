@@ -2,7 +2,7 @@ import javax.xml.bind.annotation.*;
 
 @XmlRootElement( name = "process")
 public class Process implements Comparable<Process>{
-	private int pid, arrivaltime, servicetime, endtime, runtime, waittime;
+	private int pid, arrivaltime, servicetime, remainingServicetime, endtime, runtime, waittime;
 	double norRuntime;
 	//private double HRRNPriority;
 	
@@ -27,7 +27,7 @@ public class Process implements Comparable<Process>{
 
 	public double getNorRuntime() {
 		norRuntime = (double)(servicetime+waittime)/servicetime;
-		System.out.println("norRuntime: " + norRuntime);
+		//System.out.println("norRuntime: " + norRuntime);
 		return norRuntime;
 	}
 	
@@ -68,6 +68,15 @@ public class Process implements Comparable<Process>{
 	@XmlElement(name = "servicetime")
 	public void setServicetime(int servicetime) {
 		this.servicetime = servicetime;
+		remainingServicetime = servicetime;
+	}
+	
+	public int getRemainingServicetime(){
+		return remainingServicetime;
+	}
+	
+	public void pasRemainingServicetimeAan(int tijdsbeurt){
+		remainingServicetime-=tijdsbeurt;
 	}
 	/*
 	public void setHRRNPriority(double d) {

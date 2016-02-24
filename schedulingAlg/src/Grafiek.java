@@ -44,7 +44,7 @@ public class Grafiek extends ApplicationFrame{
 	        
 	        
 	        werk = new ProcessList(pl);
-			alg.berekenRR(werk);
+			alg.berekenRR(werk,20);
 			p=new Percentiel(werk); //opgelet, proceslijst is nu gesorteerd volgens servicetijd ipv. volgens aankomsttijd
 	        final XYSeries series2 = new XYSeries("RR");
 	        for(int i=0; i<100; i++) {

@@ -14,8 +14,8 @@ public class Main {
 			JAXBContext jaxbContext = JAXBContext.newInstance(ProcessList.class);
 			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 			processenLijst = (ProcessList) jaxbUnmarshaller.unmarshal(file);
-			System.out.println(processenLijst);
-			System.out.println(processenLijst.getSize());
+			//System.out.println(processenLijst);
+			//System.out.println(processenLijst.getSize());
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		}
