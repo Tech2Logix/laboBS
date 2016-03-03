@@ -43,9 +43,9 @@ public class Grafiek extends ApplicationFrame{
 	               
 	        
 	        
-	        werk = new ProcessList(pl);
-			alg.berekenRR(werk,20);
-			p=new Percentiel(werk); //opgelet, proceslijst is nu gesorteerd volgens servicetijd ipv. volgens aankomsttijd
+	        ProcessList werkRR = new ProcessList(pl);
+			//alg.berekenRR(werkRR,4);
+			p=new Percentiel(werkRR); //opgelet, proceslijst is nu gesorteerd volgens servicetijd ipv. volgens aankomsttijd
 	        final XYSeries series2 = new XYSeries("RR");
 	        for(int i=0; i<100; i++) {
 	        	//System.out.println(i+"   NorRuntime: " + p.getProces(i).getNorRuntime() + "      ServTime:" + p.getProces(i).getServicetime());
@@ -53,18 +53,18 @@ public class Grafiek extends ApplicationFrame{
 	        }
 	        System.out.println("RR done");
 	        
-	        werk = new ProcessList(pl);
-			alg.berekenHRRN(werk);
-			p=new Percentiel(werk); //opgelet, proceslijst is nu gesorteerd volgens servicetijd ipv. volgens aankomsttijd
+	        ProcessList werkHRRN = new ProcessList(pl);
+			ProcessList solution = alg.berekenHRRN(werkHRRN);
+			Percentiel pHRRN = new Percentiel(solution); //opgelet, proceslijst is nu gesorteerd volgens servicetijd ipv. volgens aankomsttijd
 	        final XYSeries series3 = new XYSeries("HRRN");
 	        for(int i=0; i<100; i++) {
 	        	//System.out.println(i+"   NorRuntime: " + p.getProces(i).getNorRuntime() + "      ServTime:" + p.getProces(i).getServicetime());
-	        	series3.add(p.getProces(i).getServicetime(), p.getProces(i).getNorRuntime());
+	        	series3.add(pHRRN.getProces(i).getServicetime(), pHRRN.getProces(i).getNorRuntime());
 	        }
 	        System.out.println("HRRN done");
 	        
 	        werk = new ProcessList(pl);
-			alg.berekenMLFB(werk,0);
+			//alg.berekenMLFB(werk,4);
 			p=new Percentiel(werk); //opgelet, proceslijst is nu gesorteerd volgens servicetijd ipv. volgens aankomsttijd
 	        final XYSeries series4 = new XYSeries("MFM");
 	        for(int i=0; i<100; i++) {
@@ -75,9 +75,9 @@ public class Grafiek extends ApplicationFrame{
 
 	        final XYSeriesCollection dataset = new XYSeriesCollection();
 	        dataset.addSeries(series1);
-	        dataset.addSeries(series2);
+	        //dataset.addSeries(series2);
 	        dataset.addSeries(series3);
-	        dataset.addSeries(series4);
+	        //dataset.addSeries(series4);
 	                
 	        return dataset;
 	    }
@@ -122,7 +122,7 @@ public class Grafiek extends ApplicationFrame{
 	        
 	        final XYSplineRenderer renderer = new XYSplineRenderer(); //smoother?
 	        renderer.setSeriesShapesVisible(0, false);
-	        renderer.setSeriesShapesVisible(1, false);
+	        renderer.setSeriesShapesVisible(1, true);
 	        renderer.setSeriesShapesVisible(2, false);
 	        renderer.setSeriesShapesVisible(3, false);
 	        plot.setRenderer(renderer);

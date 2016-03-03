@@ -7,10 +7,17 @@ import java.util.PriorityQueue;
 import java.util.Queue;
 
 public class Algoritmen{
-	private int tijd, loper, grootteList, bedieningsTijd, aankomstTijd;
+	private double tijd, loper, grootteList, bedieningsTijd, aankomstTijd;
 	Process huidigProces;
+	double checksum;
 
 	public void berekenFCFS(ProcessList processen) {
+		checksum =0;
+		
+		for(Process p : processen.getProcessenLijst()) {
+			checksum += p.getArrivaltime();
+		}
+		System.out.println(checksum);
 		tijd = 0;
 		loper = 0;
 		bedieningsTijd = 0;
@@ -29,7 +36,7 @@ public class Algoritmen{
 			tijd += bedieningsTijd;
 			huidigProces.setEndtime(tijd);
 			huidigProces.setRuntime(tijd - aankomstTijd);
-			huidigProces.setNorRuntime((tijd - aankomstTijd) / bedieningsTijd);
+			huidigProces.setNorRuntime((double) (tijd - aankomstTijd) / bedieningsTijd);
 			huidigProces.setWaittime(tijd - aankomstTijd - bedieningsTijd);
 			// System.out.println(loper);
 			loper++;
@@ -41,10 +48,17 @@ public class Algoritmen{
 	
 	
 	public void berekenRR(ProcessList processen, int timeSlices){
+		checksum =0;
+		
+		for(Process p : processen.getProcessenLijst()) {
+			checksum += p.getArrivaltime();
+		}
+		System.out.println(checksum);
 		ArrayList <Process>werk = new ArrayList<Process>();
 		ArrayList <Process>removeLijst = new ArrayList<Process>();
 		ProcessList temp = new ProcessList(processen);
-		int overigeBedieningstijd, tijdsbeurt;
+		double overigeBedieningstijd;
+		double tijdsbeurt;
 		
 		//begin:
 		tijd=temp.getProces(0).getArrivaltime();
@@ -68,7 +82,10 @@ public class Algoritmen{
 				if(huidigProces.getRemainingServicetime()==0){  //als proces voltooid is
 					huidigProces.setEndtime(tijd);
 					huidigProces.setRuntime(tijd - huidigProces.getArrivaltime());
-					huidigProces.setNorRuntime(huidigProces.getRuntime() / huidigProces.getServicetime());
+					huidigProces.setNorRuntime(huidigProces.getRuntime() / huidigProces.getServicetime()); 
+					/****
+					 * Is dit wel juist?? Die norRunTime.. Volgens mij niet?
+					 */
 					huidigProces.setWaittime(huidigProces.getRuntime() - huidigProces.getServicetime());
 					removeLijst.add(huidigProces);
 				}
@@ -100,9 +117,9 @@ public class Algoritmen{
 
 	
 	
-	public void berekenHRRN(ProcessList processen) {
+	public ProcessList berekenHRRN(ProcessList processen) {
+		ProcessList solution = new ProcessList();
 		ProcessList werk = new ProcessList();
-		ProcessList temp = new ProcessList(processen);
 		Process next = new Process();
 		tijd = 0;
 		loper = 0;
@@ -112,17 +129,17 @@ public class Algoritmen{
 		
 		while (loper < grootteList) {
 			do {                                               //voeg processen toe aan proceslijst werk
-				for (Process p : temp.getProcessenLijst()) {
+				for (Process p : processen.getProcessenLijst()) {
 					if (p.getArrivaltime() <= tijd) {
 						werk.addProcess(p);
 					} else
-						break; // is de lijst gesorteerd op aankomsttijd...? -->ik denk van wel (Michiel)
+						break; // lijst sorted op aankomstTijd
 				}
 				if (werk.getProcessenLijst().size() == 0)
 					tijd++;
 			} while (werk.getProcessenLijst().size() == 0);
 
-			for (Process p : werk.getProcessenLijst()) temp.deleteProcess(p);   //verwijder toegevoegde processen uit proceslijst werk
+			//for (Process p : werk.getProcessenLijst()) temp.deleteProcess(p);   //verwijder toegevoegde processen uit proceslijst werk
 			
 			if (werk.getSize() == 1) {                                          //als er slechts 1 in proceslijst werk zit
 				// System.out.println("Werk size = 1?");
@@ -131,7 +148,7 @@ public class Algoritmen{
 				// System.out.println("Werk size > 1?");
 				double maxHRRNPriority = 0;
 				for (Process p : werk.getProcessenLijst()) {
-					double currentHRRN = (p.getRuntime() + (tijd - p.getArrivaltime())) / (p.getRuntime());
+					double currentHRRN = (p.getRuntime() + (double)(tijd - p.getArrivaltime())) / (p.getRuntime());
 					if (currentHRRN > maxHRRNPriority) {
 						next = p;						//onthoudt enkel tot nu toe hoogste prioriteit 
 					}
@@ -139,7 +156,7 @@ public class Algoritmen{
 				huidigProces = next;
 			}
 			werk.deleteProcess(huidigProces);
-			temp.deleteProcess(huidigProces); //is dit niet al 16 regels geleden verwijderd?
+			processen.deleteProcess(huidigProces);
 
 			//System.out.println(loper + " - " + huidigProces.getArrivaltime() + " - " + huidigProces.getServicetime() + " - "+temp.getSize() + " - "+tijd);
 			aankomstTijd = huidigProces.getArrivaltime();
@@ -150,13 +167,22 @@ public class Algoritmen{
 			huidigProces.setRuntime(tijd - aankomstTijd);
 			huidigProces.setNorRuntime(((double)(tijd - aankomstTijd)) / bedieningsTijd);
 			huidigProces.setWaittime(tijd - aankomstTijd - bedieningsTijd);
+			solution.addProcess(huidigProces);
 			loper++;
 		}
+		return solution;
 	}
 
 	public void berekenMLFB(ProcessList processen,int mode){  //mode 0: q=2^i , mode 1: q=i
+		checksum =0;
+		
+		for(Process p : processen.getProcessenLijst()) {
+			checksum += p.getArrivaltime();
+		}
+		System.out.println(checksum);
 		processen.zetRemainingTerug(); //remainingServicetime stond nog op 0 door berekenRR()
-		int huidigePrioriteit=1, tijdsBeurt;
+		int huidigePrioriteit=1;
+		double tijdsBeurt;
 		tijd=processen.getProces(0).getArrivaltime();
 		loper=1;
 		grootteList = processen.getSize();
@@ -189,7 +215,7 @@ public class Algoritmen{
 					huidigePrioriteit++;
 				}
 				else{           //als er in geen enkele queue nog een taak zit => tijdssprong
-					tijd=queues.get(huidigePrioriteit-1).get(loper).getArrivaltime();
+					tijd=queues.get(huidigePrioriteit-1).get((int) loper).getArrivaltime();
 					huidigePrioriteit=1;
 					loper++;
 				}

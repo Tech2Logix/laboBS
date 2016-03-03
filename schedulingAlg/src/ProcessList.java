@@ -14,7 +14,8 @@ public class ProcessList {
 	public ProcessList(ProcessList pl) {
 		this.processenLijst = new LinkedList<Process>();
 		for(Process p : pl.getProcessenLijst()) {
-			processenLijst.add(p);
+			Process x = new Process(p);
+			processenLijst.add(x);
 			//System.out.println("...");
 		}
 	}
@@ -23,8 +24,8 @@ public class ProcessList {
 		return processenLijst;
 	}
 	
-	public Process getProces(int i){
-		return processenLijst.get(i);
+	public Process getProces(double loper){
+		return processenLijst.get((int) loper);
 	}
 	
 	@XmlElement(name = "process")
