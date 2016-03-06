@@ -18,7 +18,6 @@ public class Process implements Comparable<Process>{
 	}
 	
 	public Process() {
-		
 	}
 	
 	public double getEndtime() {
@@ -41,7 +40,11 @@ public class Process implements Comparable<Process>{
 
 	public double getNorRuntime() {
 		norRuntime = (double)(servicetime+waittime)/servicetime;
-		//System.out.println("norRuntime: " + norRuntime);
+		//een getter dient wel niet om waarden aan te passen eh RHINO!!
+		//ik vroeg getNorRuntime op terwijl mijn wachttijd op 0 stond waardoor ik altijd 1 kreeg...
+		return norRuntime;
+	}
+	public double echteGetNorRuntime() {//
 		return norRuntime;
 	}
 	

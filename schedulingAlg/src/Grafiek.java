@@ -33,7 +33,8 @@ public class Grafiek extends ApplicationFrame{
 	        
 	        ProcessList werk = new ProcessList(pl);
 			alg.berekenFCFS(werk);
-			Percentiel p=new Percentiel(werk); //opgelet, proceslijst is nu gesorteerd volgens servicetijd ipv. volgens aankomsttijd
+	        Percentiel p;
+			p=new Percentiel(werk); //opgelet, proceslijst is nu gesorteerd volgens servicetijd ipv. volgens aankomsttijd
 	        final XYSeries series1 = new XYSeries("FCFS");
 	        for(int i=0; i<100; i++) {
 	        	//System.out.println(i+"   NorRuntime: " + p.getProces(i).getNorRuntime() + "      ServTime:" + p.getProces(i).getServicetime());
@@ -44,12 +45,12 @@ public class Grafiek extends ApplicationFrame{
 	        
 	        
 	        ProcessList werkRR = new ProcessList(pl);
-			alg.berekenRR(werkRR,4);
+			werkRR=alg.berekenRR(werkRR,8);
 			p=new Percentiel(werkRR); //opgelet, proceslijst is nu gesorteerd volgens servicetijd ipv. volgens aankomsttijd
 	        final XYSeries series2 = new XYSeries("RR");
 	        for(int i=0; i<100; i++) {
-	        	//System.out.println(i+"   NorRuntime: " + p.getProces(i).getNorRuntime() + "      ServTime:" + p.getProces(i).getServicetime());
-	        	series2.add(p.getProces(i).getServicetime(), p.getProces(i).getNorRuntime());
+	        	//System.out.println(i+"   NorRuntime: " + p.getProces(i).echteGetNorRuntime() + "      ServTime:" + p.getProces(i).getServicetime());
+	        	series2.add(p.getProces(i).getServicetime(), p.getProces(i).echteGetNorRuntime());
 	        }
 	        System.out.println("RR done");
 	        

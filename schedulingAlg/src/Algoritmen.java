@@ -48,13 +48,7 @@ public class Algoritmen{
 	
 	
 	
-	public void berekenRR(ProcessList processen, int timeSlices){
-		checksum =0;
-		
-		for(Process p : processen.getProcessenLijst()) {
-			checksum += p.getArrivaltime();
-		}
-		System.out.println(checksum);
+	public ProcessList berekenRR(ProcessList processen, int timeSlices){
 		ArrayList <Process>werk = new ArrayList<Process>();
 		ArrayList <Process>removeLijst = new ArrayList<Process>();
 		ProcessList temp = new ProcessList(processen);
@@ -69,29 +63,24 @@ public class Algoritmen{
 		werk.add(temp.getProces(0));
 		int loperWerk=0;
 		int maxWerk=1;
-		while (loper < grootteList) {
-			
-			while(loperWerk<maxWerk){
+		while (loper < grootteList){
 
 				huidigProces=werk.get(loperWerk);
 				loperWerk++;
-				overigeBedieningstijd=huidigProces.getRemainingServicetime();
-				tijdsbeurt=Math.min(overigeBedieningstijd, timeSlices);
+				tijdsbeurt=Math.min(huidigProces.getRemainingServicetime(), timeSlices);
 				tijd+=tijdsbeurt;
 				huidigProces.pasRemainingServicetimeAan(tijdsbeurt);
 				
-				if(huidigProces.getRemainingServicetime()==0){  //als proces voltooid is
+				if(huidigProces.getRemainingServicetime() == 0 ){  //als proces voltooid is
 					huidigProces.setEndtime(tijd);
 					huidigProces.setRuntime(tijd - huidigProces.getArrivaltime());
-					huidigProces.setNorRuntime(huidigProces.getRuntime() / huidigProces.getServicetime()); 
-					/****
-					 * Is dit wel juist?? Die norRunTime.. Volgens mij niet?
-					 */
-					huidigProces.setWaittime(huidigProces.getRuntime() - huidigProces.getServicetime());
+					huidigProces.setWaittime(tijd - huidigProces.getArrivaltime() - huidigProces.getServicetime());
+					huidigProces.setNorRuntime((double)(huidigProces.echteGetNorRuntime())/huidigProces.getServicetime());
+
 					removeLijst.add(huidigProces);
 				}
-				if((loperWerk == maxWerk) && (loper < grootteList)){ //als we aan het einde van ons toertje zitten moeten we kijken of de volgende ondertussen ook al mogelijk is
-					if(temp.getProces(loper).getArrivaltime()<=tijd){
+				if((loperWerk == maxWerk)){ //als we aan het einde van ons toertje zitten moeten we kijken of de volgende ondertussen ook al mogelijk is
+					if((loper < grootteList) && (temp.getProces(loper).getArrivaltime()<=tijd)){
 						werk.add(temp.getProces(loper));
 						loper++;
 						maxWerk++;
@@ -112,8 +101,8 @@ public class Algoritmen{
 					loper++;
 					maxWerk++;
 				}
-			}
 		}
+		return temp;
 	}
 
 	
@@ -238,8 +227,7 @@ public class Algoritmen{
 						loper++;
 						huidigePrioriteit=1; //indien geen nieuw process mag de huidige prioriteit blijven waar hij was
 					}
-				}
-				
+				}				
 			}
 		}
 	}

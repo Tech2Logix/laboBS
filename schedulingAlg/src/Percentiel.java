@@ -3,6 +3,9 @@ import java.util.*;
 public class Percentiel {
 	private LinkedList<Process> percentielen;
 	
+	Percentiel(){
+	}
+	
 	Percentiel(ProcessList processenLijst){
 		
 		processenLijst.sorteerOpServiceTijd();
