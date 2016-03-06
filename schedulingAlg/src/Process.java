@@ -10,10 +10,11 @@ public class Process implements Comparable<Process>{
 		this.pid = p.pid;
 		this.arrivaltime = p.arrivaltime;
 		this.servicetime = p.servicetime;
-		this.remainingServicetime = p.servicetime;
-		this.endtime = 0;
-		this.runtime = 0;
-		this.waittime = 0;
+		this.remainingServicetime = p.remainingServicetime;
+		this.endtime = p.endtime;
+		this.runtime = p.runtime;
+		this.waittime = p.waittime;
+		this.norRuntime = p.norRuntime;
 	}
 	
 	public Process() {

@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Deque;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -118,59 +119,46 @@ public class Algoritmen{
 	
 	
 	public ProcessList berekenHRRN(ProcessList processen) {
-		ProcessList solution = new ProcessList();
-		ProcessList werk = new ProcessList();
-		Process next = new Process();
-		tijd = 0;
-		loper = 0;
-		bedieningsTijd = 0;
-		aankomstTijd = 0;
-		grootteList = processen.getSize();
-		
-		while (loper < grootteList) {
-			do {                                               //voeg processen toe aan proceslijst werk
-				for (Process p : processen.getProcessenLijst()) {
-					if (p.getArrivaltime() <= tijd) {
-						werk.addProcess(p);
-					} else
-						break; // lijst sorted op aankomstTijd
-				}
-				if (werk.getProcessenLijst().size() == 0)
-					tijd++;
-			} while (werk.getProcessenLijst().size() == 0);
-
-			//for (Process p : werk.getProcessenLijst()) temp.deleteProcess(p);   //verwijder toegevoegde processen uit proceslijst werk
-			
-			if (werk.getSize() == 1) {                                          //als er slechts 1 in proceslijst werk zit
-				// System.out.println("Werk size = 1?");
-				huidigProces = werk.getProcessenLijst().getFirst();
-			} else {															//als er meerdere in proceslijst werk zitten
-				// System.out.println("Werk size > 1?");
-				double maxHRRNPriority = 0;
-				for (Process p : werk.getProcessenLijst()) {
-					double currentHRRN = (p.getRuntime() + (double)(tijd - p.getArrivaltime())) / (p.getRuntime());
-					if (currentHRRN > maxHRRNPriority) {
-						next = p;						//onthoudt enkel tot nu toe hoogste prioriteit 
-					}
-				}
-				huidigProces = next;
+		List<Process> wachtLijst = new ArrayList<Process>();
+		double tijd = 0;
+		// boolean bezet = false;
+		for (int i = 0; i < processen.getSize(); i++) {
+			Process hulp = processen.getProces(i);
+			if (tijd <= hulp.getArrivaltime() && wachtLijst.size() == 0) {
+				tijd = hulp.getArrivaltime();
+				hulp.setWaittime(tijd - hulp.getArrivaltime());
+				hulp.setEndtime(tijd + hulp.getServicetime());
+				tijd += hulp.getServicetime();
 			}
-			werk.deleteProcess(huidigProces);
-			processen.deleteProcess(huidigProces);
-
-			//System.out.println(loper + " - " + huidigProces.getArrivaltime() + " - " + huidigProces.getServicetime() + " - "+temp.getSize() + " - "+tijd);
-			aankomstTijd = huidigProces.getArrivaltime();
-			bedieningsTijd = huidigProces.getServicetime();
-
-			tijd += bedieningsTijd;
-			huidigProces.setEndtime(tijd);
-			huidigProces.setRuntime(tijd - aankomstTijd);
-			huidigProces.setNorRuntime(((double)(tijd - aankomstTijd)) / bedieningsTijd);
-			huidigProces.setWaittime(tijd - aankomstTijd - bedieningsTijd);
-			solution.addProcess(huidigProces);
-			loper++;
+			else  {
+				int j = i;
+				while(j<processen.getSize() &&tijd > processen.getProces(j).getArrivaltime()){
+					wachtLijst.add(processen.getProces(j));
+					j++;
+				}
+				i = j-1;
+				
+				//Alle wachttijden berekenen voor de wachtende processen
+				for(Process p : wachtLijst){
+					p.setWaittime(tijd-p.getArrivaltime());
+				}
+				//Sorteer volgens norRuntime
+				Collections.sort(wachtLijst,(Process p1, Process p2) -> Double.compare(p2.getNorRuntime(),p1.getNorRuntime()));
+				//Neem de eerste uit de wachtlijst en haal die er ook uit
+				while(wachtLijst.size()!=0){
+				Process uitvoeren = wachtLijst.get(0);
+				wachtLijst.remove(0);
+				uitvoeren.setEndtime(tijd + uitvoeren.getServicetime());
+				tijd += uitvoeren.getServicetime();
+				for(Process p : wachtLijst){
+					p.setWaittime(tijd-p.getArrivaltime());
+				}
+				//Sorteer volgens norRuntime
+				Collections.sort(wachtLijst,(Process p1, Process p2) -> Double.compare(p2.getNorRuntime(),p1.getNorRuntime()));
+				}
+			}
 		}
-		return solution;
+		return processen;
 	}
 
 	public void berekenMLFB(ProcessList processen,int mode){  //mode 0: q=2^i , mode 1: q=i
