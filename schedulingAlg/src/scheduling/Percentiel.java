@@ -1,15 +1,16 @@
+package scheduling;
 import java.util.*;
 
 public class Percentiel {
 	private LinkedList<Process> percentielen;
 	
-	Percentiel(){
+	public Percentiel(){
 	}
 	
-	Percentiel(ProcessList processenLijst){
+	public Percentiel(ProcessList processenLijst){
 		
 		processenLijst.sorteerOpServiceTijd();
-		//processenLijst.printList(); //test
+		//processenLijst.priSntList(); //test
 		
 		percentielen=new LinkedList<Process>();
 		int nProcessenPerPercentiel=processenLijst.getSize()/100;

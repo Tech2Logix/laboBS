@@ -1,3 +1,4 @@
+package scheduling;
 import javax.xml.bind.annotation.*;
 
 @XmlRootElement( name = "process")

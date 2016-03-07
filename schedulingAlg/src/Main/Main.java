@@ -1,8 +1,13 @@
+package Main;
 import java.io.*;
+import model.*;
 
 import javax.xml.bind.*;
 
 import org.jfree.ui.RefineryUtilities;
+
+import grafiek.Grafiek;
+import scheduling.ProcessList;
 
 public class Main {
 
@@ -22,10 +27,7 @@ public class Main {
 
 		
 		//genereer grafiek
-		Grafiek g = new Grafiek("Test", processenLijst);
-		g.pack();
-        RefineryUtilities.centerFrameOnScreen(g);
-        g.setVisible(true);
+		GUI gui = new GUI(processenLijst);
 		
 	}
 }
