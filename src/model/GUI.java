@@ -50,7 +50,7 @@ public class GUI extends JFrame {
 		pbottem.add(lblNewLabel);
 		
 		lblNewLabel2 = new JLabel();
-		lblNewLabel2.setText("Ingeladen data set: (todo...)");
+		lblNewLabel2.setText("scheduling strategieën");
 		ptop.add(lblNewLabel2);
 
 		Grafiek g = new Grafiek("titelGrafiek", processenLijst);

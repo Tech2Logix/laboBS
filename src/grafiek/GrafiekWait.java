@@ -95,10 +95,10 @@ public class GrafiekWait extends ApplicationFrame {
 	}
 
 	private JFreeChart createChart(final XYDataset dataset) {
-		final JFreeChart chart = ChartFactory.createXYLineChart("Scheduling algoritmes graphic 2", // chart
+		final JFreeChart chart = ChartFactory.createXYLineChart("Grafiek 2", // chart
 																							// title
-				"Bedieningstijd", // x axis label
-				"Genormaliseerde omlooptijd", // y axis label
+				"Bedieninstijd", // x axis label
+				"WachtT  tijd", // y axis label
 				dataset, // data
 				PlotOrientation.VERTICAL, true, // include legend
 				true, // tooltips

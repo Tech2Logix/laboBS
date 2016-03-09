@@ -110,7 +110,7 @@ public class Grafiek extends ApplicationFrame {
 	}
 
 	private JFreeChart createChart(final XYDataset dataset) {
-		final JFreeChart chart = ChartFactory.createXYLineChart("Scheduling algoritmes graphic 1", // chart
+		final JFreeChart chart = ChartFactory.createXYLineChart("Grafiek 1", // chart
 																							// title
 				"Bedieningstijd", // x axis label
 				"Genormaliseerde omlooptijd", // y axis label
