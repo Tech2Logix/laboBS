@@ -174,11 +174,11 @@ public class Algoritmen {
 
 		System.out.println(processen.getProces(0).getRemainingServicetime());
 
-		List<Process> prioriteit1 = new LinkedList<Process>();
-		List<Process> prioriteit2 = new LinkedList<Process>();
-		List<Process> prioriteit3 = new LinkedList<Process>();
-		List<Process> prioriteit4 = new LinkedList<Process>();
-		List<List<Process>> queues = new ArrayList<List<Process>>();
+		LinkedList<Process> prioriteit1 = new LinkedList<Process>();
+		LinkedList<Process> prioriteit2 = new LinkedList<Process>();
+		LinkedList<Process> prioriteit3 = new LinkedList<Process>();
+		LinkedList<Process> prioriteit4 = new LinkedList<Process>();
+		ArrayList<LinkedList<Process>> queues = new ArrayList<LinkedList<Process>>();
 		queues.add(prioriteit1);
 		queues.add(prioriteit2);
 		queues.add(prioriteit3);
@@ -213,17 +213,22 @@ public class Algoritmen {
 				tijd += tijdsBeurt;
 				huidigProces.pasRemainingServicetimeAan(tijdsBeurt);
 				//System.out.println("overblijvende service tijd " + huidigProces.getRemainingServicetime());
-				if (huidigProces.getRemainingServicetime() == 0) {
-					//System.out.println("test2");
+				if (huidigProces.getRemainingServicetime() == 0) {//als een proces klaar is
 					huidigProces.setEndtime(tijd);
-					huidigProces.setRuntime(tijd = huidigProces.getArrivaltime());
+					huidigProces.setRuntime(tijd - huidigProces.getArrivaltime());
+					System.out.println("tijd: "+tijd+"  aankomst tijd: "+huidigProces.getArrivaltime()+ "--> runtime: "+huidigProces.echteGetRuntime());
+
 					huidigProces.setNorRuntime(huidigProces.echteGetRuntime() / huidigProces.getServicetime());
 					huidigProces.setWaittime(huidigProces.echteGetRuntime() - huidigProces.getServicetime());
 					queues.get(huidigePrioriteit - 1).remove(huidigProces);
-				} else if (huidigePrioriteit != 4) {
+					//System.out.println(huidigProces.getPid()+" runtime"+huidigProces.getRuntime()+" servicetime: "+huidigProces.getServicetime());
+				} else if (huidigePrioriteit != 4) {//als het laatste proces nog niet klaar is
 					//System.out.println("test");
 					queues.get(huidigePrioriteit).add(huidigProces);
 					queues.get(huidigePrioriteit - 1).remove(huidigProces);
+				} else if (huidigePrioriteit == 4){ //proces weer achteraan in de rij plaatsen
+					prioriteit4.remove(huidigProces);
+					prioriteit4.add(huidigProces);
 				}
 
 				// na iedere taak kijken of in prioriteit 1 nog een taak

@@ -99,7 +99,7 @@ public class Grafiek extends ApplicationFrame {
 
 		final XYSeriesCollection dataset = new XYSeriesCollection();
 		dataset.addSeries(series1);
-		dataset.addSeries(series2);
+		//dataset.addSeries(series2);
 		dataset.addSeries(series3);
 		dataset.addSeries(series4);
 
@@ -137,7 +137,7 @@ public class Grafiek extends ApplicationFrame {
 
 		// ValueAxis vaxis = new LogAxis("Genormaliseerde omlooptijd");
 		NumberAxis domein = (NumberAxis) plot.getDomainAxis();
-		domein.setRange(0.00, 100.00);
+		//domein.setRange(0.00, 5000.00);
 
 		// final XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer();
 
