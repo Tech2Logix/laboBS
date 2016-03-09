@@ -191,36 +191,37 @@ public class Algoritmen {
 		}
 		prioriteit1.add(processen.getProces(0));
 
-		while (loper < grootteList) {
-			System.out.println("huidige prioriteit: " + huidigePrioriteit);
+		while((loper < grootteList) || !prioriteit1.isEmpty()|| !prioriteit2.isEmpty()|| !prioriteit3.isEmpty()|| !prioriteit4.isEmpty()){
+			//System.out.println("huidige prioriteit: " + huidigePrioriteit);
 			if (queues.get(huidigePrioriteit - 1).isEmpty()) {
-				System.out.println("huidigePrioriteit " + huidigePrioriteit + " is leeg");
+				//System.out.println("huidigePrioriteit " + huidigePrioriteit + " is leeg");
 				if (huidigePrioriteit != 4) {
 					huidigePrioriteit++;
-				} else { // als er in geen enkele queue nog een taak zit =>
-							// tijdssprong
-					tijd = queues.get(huidigePrioriteit - 1).get((int) loper).getArrivaltime();
+				} 
+				else if(loper < grootteList){//als er in geen enkele queue nog een taak zit => tijdssprong
+					tijd = processen.getProces(loper).getArrivaltime();
+					prioriteit1.add(processen.getProces(loper));
 					huidigePrioriteit = 1;
 					loper++;
 				}
 			}
 
-			else {
+			else {     //als er een proces gevonden is
 				huidigProces = queues.get(huidigePrioriteit - 1).get(0);
-				System.out.println("overblijvende service tijd " + huidigProces.getRemainingServicetime());
+				//System.out.println("overblijvende service tijd " + huidigProces.getRemainingServicetime());
 				tijdsBeurt = Math.min(huidigProces.getRemainingServicetime(), tijdsBeurten[huidigePrioriteit - 1]);
 				tijd += tijdsBeurt;
 				huidigProces.pasRemainingServicetimeAan(tijdsBeurt);
-				System.out.println("overblijvende service tijd " + huidigProces.getRemainingServicetime());
+				//System.out.println("overblijvende service tijd " + huidigProces.getRemainingServicetime());
 				if (huidigProces.getRemainingServicetime() == 0) {
-					System.out.println("test2");
+					//System.out.println("test2");
 					huidigProces.setEndtime(tijd);
 					huidigProces.setRuntime(tijd = huidigProces.getArrivaltime());
-					huidigProces.setNorRuntime(huidigProces.getRuntime() / huidigProces.getServicetime());
-					huidigProces.setWaittime(huidigProces.getRuntime() - huidigProces.getServicetime());
+					huidigProces.setNorRuntime(huidigProces.echteGetRuntime() / huidigProces.getServicetime());
+					huidigProces.setWaittime(huidigProces.echteGetRuntime() - huidigProces.getServicetime());
 					queues.get(huidigePrioriteit - 1).remove(huidigProces);
 				} else if (huidigePrioriteit != 4) {
-					System.out.println("test");
+					//System.out.println("test");
 					queues.get(huidigePrioriteit).add(huidigProces);
 					queues.get(huidigePrioriteit - 1).remove(huidigProces);
 				}
@@ -228,13 +229,16 @@ public class Algoritmen {
 				// na iedere taak kijken of in prioriteit 1 nog een taak
 				// bijkomt:
 				mogelijksNieuwProces = true;
-				while (mogelijksNieuwProces) {
+				while((mogelijksNieuwProces) && (loper < grootteList)){
 					if (processen.getProces(loper).getArrivaltime() <= tijd) {
 						prioriteit1.add(processen.getProces(loper));
 						loper++;
 						huidigePrioriteit = 1; // indien geen nieuw process mag
 												// de huidige prioriteit blijven
 												// waar hij was
+					}
+					else{
+						mogelijksNieuwProces=false;
 					}
 				}
 			}

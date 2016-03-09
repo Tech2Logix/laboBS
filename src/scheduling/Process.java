@@ -28,7 +28,11 @@ public class Process implements Comparable<Process>{
 	public void setEndtime(double tijd) {
 		this.endtime = tijd;
 	}
-
+	
+	public double echteGetRuntime() {
+		runtime = servicetime + waittime;
+		return runtime;
+	}
 	
 	public double getRuntime() {
 		runtime = servicetime + waittime;

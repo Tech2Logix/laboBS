@@ -84,11 +84,11 @@ public class Grafiek extends ApplicationFrame {
 		System.out.println("HRRN done");
 
 		werk = new ProcessList(pl);
-		// alg.berekenMLFB(werk,4);
+		alg.berekenMLFB(werk,4);
 		p = new Percentiel(werk); // opgelet, proceslijst is nu gesorteerd
 									// volgens servicetijd ipv. volgens
 									// aankomsttijd
-		final XYSeries series4 = new XYSeries("MFM");
+		final XYSeries series4 = new XYSeries("MLFB");
 		for (int i = 0; i < 100; i++) {
 			// System.out.println(i+" NorRuntime: " +
 			// p.getProces(i).getNorRuntime() + " ServTime:" +
@@ -101,7 +101,7 @@ public class Grafiek extends ApplicationFrame {
 		dataset.addSeries(series1);
 		dataset.addSeries(series2);
 		dataset.addSeries(series3);
-		// dataset.addSeries(series4);
+		dataset.addSeries(series4);
 
 		return dataset;
 	}
