@@ -99,7 +99,7 @@ public class Grafiek extends ApplicationFrame {
 
 		final XYSeriesCollection dataset = new XYSeriesCollection();
 		dataset.addSeries(series1);
-		//dataset.addSeries(series2);
+		dataset.addSeries(series2);
 		dataset.addSeries(series3);
 		dataset.addSeries(series4);
 

@@ -172,7 +172,6 @@ public class Algoritmen {
 		grootteList = processen.getSize();
 		boolean mogelijksNieuwProces;
 
-		System.out.println(processen.getProces(0).getRemainingServicetime());
 
 		LinkedList<Process> prioriteit1 = new LinkedList<Process>();
 		LinkedList<Process> prioriteit2 = new LinkedList<Process>();
@@ -192,9 +191,7 @@ public class Algoritmen {
 		prioriteit1.add(processen.getProces(0));
 
 		while((loper < grootteList) || !prioriteit1.isEmpty()|| !prioriteit2.isEmpty()|| !prioriteit3.isEmpty()|| !prioriteit4.isEmpty()){
-			//System.out.println("huidige prioriteit: " + huidigePrioriteit);
 			if (queues.get(huidigePrioriteit - 1).isEmpty()) {
-				//System.out.println("huidigePrioriteit " + huidigePrioriteit + " is leeg");
 				if (huidigePrioriteit != 4) {
 					huidigePrioriteit++;
 				} 
@@ -208,22 +205,17 @@ public class Algoritmen {
 
 			else {     //als er een proces gevonden is
 				huidigProces = queues.get(huidigePrioriteit - 1).get(0);
-				//System.out.println("overblijvende service tijd " + huidigProces.getRemainingServicetime());
 				tijdsBeurt = Math.min(huidigProces.getRemainingServicetime(), tijdsBeurten[huidigePrioriteit - 1]);
 				tijd += tijdsBeurt;
 				huidigProces.pasRemainingServicetimeAan(tijdsBeurt);
-				//System.out.println("overblijvende service tijd " + huidigProces.getRemainingServicetime());
 				if (huidigProces.getRemainingServicetime() == 0) {//als een proces klaar is
 					huidigProces.setEndtime(tijd);
 					huidigProces.setRuntime(tijd - huidigProces.getArrivaltime());
-					System.out.println("tijd: "+tijd+"  aankomst tijd: "+huidigProces.getArrivaltime()+ "--> runtime: "+huidigProces.echteGetRuntime());
 
 					huidigProces.setNorRuntime(huidigProces.echteGetRuntime() / huidigProces.getServicetime());
 					huidigProces.setWaittime(huidigProces.echteGetRuntime() - huidigProces.getServicetime());
 					queues.get(huidigePrioriteit - 1).remove(huidigProces);
-					//System.out.println(huidigProces.getPid()+" runtime"+huidigProces.getRuntime()+" servicetime: "+huidigProces.getServicetime());
 				} else if (huidigePrioriteit != 4) {//als het laatste proces nog niet klaar is
-					//System.out.println("test");
 					queues.get(huidigePrioriteit).add(huidigProces);
 					queues.get(huidigePrioriteit - 1).remove(huidigProces);
 				} else if (huidigePrioriteit == 4){ //proces weer achteraan in de rij plaatsen

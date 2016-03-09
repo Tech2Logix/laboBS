@@ -40,7 +40,6 @@ public class Process implements Comparable<Process>{
 	
 	public void setRuntime(double t) {
 		this.runtime=t;
-		System.out.println("runtime is nu "+runtime);
 	}
 
 	public double getNorRuntime() {
