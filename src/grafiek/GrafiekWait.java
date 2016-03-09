@@ -17,12 +17,12 @@ import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import java.awt.Color;
 
-public class Grafiek extends ApplicationFrame {
+public class GrafiekWait extends ApplicationFrame {
 	private static final long serialVersionUID = -5826676505576415011L;
 	String xAs, yAs, grafiekTitle, appTitle;
 	ChartPanel chartPanel1;
 
-	public Grafiek(String applicationTitle, ProcessList pl) {
+	public GrafiekWait(String applicationTitle, ProcessList pl) {
 		super(applicationTitle);
 
 		final XYDataset dataset = createDataset(pl);
@@ -33,9 +33,6 @@ public class Grafiek extends ApplicationFrame {
 	}
 	
 	public ChartPanel getChartPanel() {
-		return this.chartPanel1;
-	}
-	public ChartPanel getChartPanel2() {
 		return this.chartPanel1;
 	}
 
@@ -50,10 +47,7 @@ public class Grafiek extends ApplicationFrame {
 									// aankomsttijd
 		final XYSeries series1 = new XYSeries("FCFS");
 		for (int i = 0; i < 100; i++) {
-			// System.out.println(i+" NorRuntime: " +
-			// p.getProces(i).getNorRuntime() + " ServTime:" +
-			// p.getProces(i).getServicetime());
-			series1.addOrUpdate(p.getProces(i).getServicetime(), p.getProces(i).getNorRuntime());
+			series1.addOrUpdate(p.getProces(i).getServicetime(), p.getProces(i).getWaittime());
 		}
 		System.out.println("FSFC done");
 
@@ -64,10 +58,7 @@ public class Grafiek extends ApplicationFrame {
 									// aankomsttijd
 		final XYSeries series2 = new XYSeries("RR");
 		for (int i = 0; i < 100; i++) {
-			// System.out.println(i+" NorRuntime: " +
-			// p.getProces(i).echteGetNorRuntime() + " ServTime:" +
-			// p.getProces(i).getServicetime());
-			series2.add(p.getProces(i).getServicetime(), p.getProces(i).echteGetNorRuntime());
+			series2.add(p.getProces(i).getServicetime(), p.getProces(i).getWaittime());
 		}
 		System.out.println("RR done");
 
@@ -79,10 +70,7 @@ public class Grafiek extends ApplicationFrame {
 														// volgens aankomsttijd
 		final XYSeries series3 = new XYSeries("HRRN");
 		for (int i = 0; i < 100; i++) {
-			// System.out.println(i+" NorRuntime: " +
-			// p.getProces(i).getNorRuntime() + " ServTime:" +
-			// p.getProces(i).getServicetime());
-			series3.add(pHRRN.getProces(i).getServicetime(), pHRRN.getProces(i).getNorRuntime());
+			series3.add(pHRRN.getProces(i).getServicetime(), pHRRN.getProces(i).getWaittime());
 		}
 		System.out.println("HRRN done");
 
@@ -93,10 +81,7 @@ public class Grafiek extends ApplicationFrame {
 									// aankomsttijd
 		final XYSeries series4 = new XYSeries("MLFB");
 		for (int i = 0; i < 100; i++) {
-			// System.out.println(i+" NorRuntime: " +
-			// p.getProces(i).getNorRuntime() + " ServTime:" +
-			// p.getProces(i).getServicetime());
-			series4.add(p.getProces(i).getServicetime(), p.getProces(i).getNorRuntime());
+			series4.add(p.getProces(i).getServicetime(), p.getProces(i).getWaittime());
 		}
 		System.out.println("MLFB done");
 
@@ -110,7 +95,7 @@ public class Grafiek extends ApplicationFrame {
 	}
 
 	private JFreeChart createChart(final XYDataset dataset) {
-		final JFreeChart chart = ChartFactory.createXYLineChart("Scheduling algoritmes graphic 1", // chart
+		final JFreeChart chart = ChartFactory.createXYLineChart("Scheduling algoritmes graphic 2", // chart
 																							// title
 				"Bedieningstijd", // x axis label
 				"Genormaliseerde omlooptijd", // y axis label

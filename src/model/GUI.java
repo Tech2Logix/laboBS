@@ -7,6 +7,7 @@ import javax.swing.*;
 import org.jfree.chart.ChartPanel;
 
 import grafiek.Grafiek;
+import grafiek.GrafiekWait;
 //import listeners.*;
 //import model.*;
 import scheduling.ProcessList;
@@ -21,6 +22,7 @@ public class GUI extends JFrame {
 	private JPanel p;
 	private JPanel ptop;
 	private JPanel pbottem;
+	private JScrollPane scrPane;
 
 	private JMenuBar menuBar;
 	private JMenu menu_dataSet;
@@ -35,7 +37,7 @@ public class GUI extends JFrame {
 	private JLabel lblNewLabel;
 	private JLabel lblNewLabel2;
 	private JPanel chartPanel;
-	private ChartPanel chart;
+	private ChartPanel chart, chart2;
 	public GUI(ProcessList processenLijst) {
 		p = new JPanel();
 		ptop = new JPanel();
@@ -57,12 +59,12 @@ public class GUI extends JFrame {
 		chartPanel.setLayout(new BoxLayout(chartPanel, 1));
 		chartPanel.add(chart);
 		
-		/**
-		 * Om die wait time grafiek te importeren ->
-		 * gewoon nieuwe Grafiek g ...
-		 * nieuwe chart
-		 * en dan chartPanel.add(chart);
-		 */
+		GrafiekWait g2 =new GrafiekWait("titelGrafiek", processenLijst);
+		chart2 = g2.getChartPanel();
+		chartPanel.add(chart2);
+		
+		
+		
 
 		p.add(chartPanel);
 
@@ -97,12 +99,18 @@ public class GUI extends JFrame {
 		menu_instellingen.add(menuItem_MFM);
 
 		this.setTitle("Labo besturingssystemen: Uniprocessor scheduling algoritmhs");
-		this.getContentPane().add(p);
-
-		this.setBounds(200, 0, 1400, 600);
+		
+		//this.getContentPane().add(p);
+		scrPane =new JScrollPane(p);
+		scrPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		scrPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		this.getContentPane().add(scrPane);
+		
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		this.setVisible(true);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.pack();
+		setSize(screenSize.width,screenSize.height);
 	}
 
 }
