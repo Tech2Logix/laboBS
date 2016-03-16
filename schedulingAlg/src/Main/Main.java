@@ -14,6 +14,7 @@ public class Main {
 	public static void main(String[] args) {
 		ProcessList processenLijst=new ProcessList();
 		//lees xml bestand in
+		
 		try {
 			File file = new File("processen10000.xml");
 			JAXBContext jaxbContext = JAXBContext.newInstance(ProcessList.class);
