@@ -16,33 +16,36 @@ public class listener_XML2 implements ActionListener {
 	private JPanel chartPanel, waitEnNorTime;
 	
 	public listener_XML2(JPanel XML1graph, CardLayout CL, JPanel chartPanel) {
-		System.out.println("XML 20k set generated");
+		System.out.println();
+		System.out.print("XML 20k set generating... ");
 		this.CL = CL;
 		this.chartPanel = chartPanel;
 		waitEnNorTime = new JPanel();
 		waitEnNorTime.setLayout(new BoxLayout(waitEnNorTime, 1));
 		
-		
+		alg.berekenFCFS();
+		alg.berekenRR(8);
+		alg.berekenHRRN();
+		alg.berekenMLFB(4);
+
+		System.out.print("Eerste grafiek genereren... ");
 		Grafiek g = new Grafiek("norRunTime", alg);
 		ChartPanel chart = g.getChartPanel();
 		waitEnNorTime.add(chart);
 		
 
-		System.out.println("Eerste grafiek done");
+		System.out.print("Tweede grafiek genereren... ");
 		GrafiekWait g2 = new GrafiekWait("waitTime", alg);
 		ChartPanel chart2 = g2.getChartPanel();
 		waitEnNorTime.add(chart2);
 		
 		XML1graph.add(waitEnNorTime);
 		chartPanel.add("XML20000 dataset", XML1graph);
-		
-		System.out.println("Tweede grafiek done");
-		
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		System.out.println("XML 20k set inserted");
+		System.out.println("XML 20k set activated");
 		CL.show(chartPanel, "XML20000 dataset");
 	}
 

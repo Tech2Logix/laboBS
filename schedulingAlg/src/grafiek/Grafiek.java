@@ -3,12 +3,9 @@ package grafiek;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.axis.NumberAxis;
 import org.jfree.ui.ApplicationFrame;
 import scheduling.Algoritmen;
 import scheduling.Percentiel;
-import scheduling.ProcessList;
-
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYSplineRenderer;
@@ -22,82 +19,68 @@ public class Grafiek extends ApplicationFrame {
 	String xAs, yAs, grafiekTitle, appTitle;
 	ChartPanel chartPanel1;
 	Algoritmen alg;
+	Percentiel p;
+	String applicationTitle;
 
 	public Grafiek(String applicationTitle, Algoritmen alg) {
 		super(applicationTitle);
+		this.applicationTitle = applicationTitle;
 		this.alg = alg;
-		
-		final XYDataset dataset = createDataset(alg.getProcessen());
+
+		final XYDataset dataset = createDataset();
 		final JFreeChart chart = createChart(dataset);
 		chartPanel1 = new ChartPanel(chart);
 		chartPanel1.setPreferredSize(new java.awt.Dimension(800, 450));
 		setContentPane(chartPanel1);
 	}
-	
+
 	public ChartPanel getChartPanel() {
 		return this.chartPanel1;
 	}
-	
-	private XYDataset createDataset(ProcessList pl) {
 
-		ProcessList werk = new ProcessList(pl);
-		alg.berekenFCFS();
-		Percentiel p;
-		p = new Percentiel(werk); // opgelet, proceslijst is nu gesorteerd
-									// volgens servicetijd ipv. volgens
-									// aankomsttijd
+	private XYDataset createDataset() {
+		p = new Percentiel(alg.getFCFS());	// opgelet, proceslijst is nu 
+												// gesorteerd volgens servicetijd ipv. volgens aankomsttijd
 		final XYSeries series1 = new XYSeries("FCFS");
 		for (int i = 0; i < 100; i++) {
-			// System.out.println(i+" NorRuntime: " +
-			// p.getProces(i).getNorRuntime() + " ServTime:" +
-			// p.getProces(i).getServicetime());
 			series1.addOrUpdate(p.getProces(i).getServicetime(), p.getProces(i).getNorRuntime());
 		}
-		System.out.println("FSFC done");
+		System.out.print("FSFC done, ");
 
-		ProcessList werkRR = new ProcessList(pl);
-		werkRR = alg.berekenRR(8);
-		p = new Percentiel(werkRR); // opgelet, proceslijst is nu gesorteerd
-									// volgens servicetijd ipv. volgens
-									// aankomsttijd
+		
+		
+		p = new Percentiel(alg.getRR()); 	// opgelet, proceslijst is nu 
+												// gesorteerd volgens servicetijd ipv. volgens aankomsttijd
 		final XYSeries series2 = new XYSeries("RR");
 		for (int i = 0; i < 100; i++) {
-			// System.out.println(i+" NorRuntime: " +
-			// p.getProces(i).echteGetNorRuntime() + " ServTime:" +
-			// p.getProces(i).getServicetime());
 			series2.add(p.getProces(i).getServicetime(), p.getProces(i).echteGetNorRuntime());
 		}
-		System.out.println("RR done");
+		System.out.print("RR done, ");
 
-		ProcessList werkHRRN = new ProcessList(pl);
-		ProcessList solution = alg.berekenHRRN();
-		Percentiel pHRRN = new Percentiel(solution); // opgelet, proceslijst is
-														// nu gesorteerd volgens
-														// servicetijd ipv.
-														// volgens aankomsttijd
+		
+		
+		Percentiel pHRRN = new Percentiel(alg.getHRRN()); 	// opgelet, proceslijst is nu 
+																// gesorteerd volgens servicetijd ipv. volgens aankomsttijd
 		final XYSeries series3 = new XYSeries("HRRN");
 		for (int i = 0; i < 100; i++) {
-			// System.out.println(i+" NorRuntime: " +
-			// p.getProces(i).getNorRuntime() + " ServTime:" +
-			// p.getProces(i).getServicetime());
+
 			series3.add(pHRRN.getProces(i).getServicetime(), pHRRN.getProces(i).getNorRuntime());
 		}
-		System.out.println("HRRN done");
+		System.out.print("HRRN done, ");
 
-		werk = new ProcessList(pl);
-		alg.berekenMLFB(4);
-		p = new Percentiel(werk); // opgelet, proceslijst is nu gesorteerd
-									// volgens servicetijd ipv. volgens
-									// aankomsttijd
+		
+		
+		p = new Percentiel(alg.getMLFB()); // opgelet, proceslijst is nu
+												// gesorteerd volgens servicetijd ipv. volgens aankomsttijd
+
 		final XYSeries series4 = new XYSeries("MLFB");
 		for (int i = 0; i < 100; i++) {
-			// System.out.println(i+" NorRuntime: " +
-			// p.getProces(i).getNorRuntime() + " ServTime:" +
-			// p.getProces(i).getServicetime());
 			series4.add(p.getProces(i).getServicetime(), p.getProces(i).getNorRuntime());
 		}
-		System.out.println("MLFB done");
+		System.out.println("MLFB done... ");
 
+		
+		
 		final XYSeriesCollection dataset = new XYSeriesCollection();
 		dataset.addSeries(series1);
 		dataset.addSeries(series2);
@@ -108,8 +91,7 @@ public class Grafiek extends ApplicationFrame {
 	}
 
 	private JFreeChart createChart(final XYDataset dataset) {
-		final JFreeChart chart = ChartFactory.createXYLineChart("Grafiek 1", // chart
-																							// title
+		final JFreeChart chart = ChartFactory.createXYLineChart(applicationTitle,
 				"Bedieningstijd", // x axis label
 				"Genormaliseerde omlooptijd", // y axis label
 				dataset, // data
@@ -127,20 +109,6 @@ public class Grafiek extends ApplicationFrame {
 		plot.setDomainGridlinePaint(Color.white);
 		plot.setRangeGridlinePaint(Color.white);
 
-		/*
-		 * LogAxis logAxis = new LogAxis("Genormaliseerde omlooptijd");
-		 * //test... logAxis.setMinorTickMarksVisible(true);
-		 * 
-		 * logAxis.setAutoRange(true);
-		 * 
-		 * plot.setRangeAxis(logAxis);
-		 */
-
-		// ValueAxis vaxis = new LogAxis("Genormaliseerde omlooptijd");
-		NumberAxis domein = (NumberAxis) plot.getDomainAxis();
-		//domein.setRange(0.00, 5000.00);
-
-		// final XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer();
 
 		final XYSplineRenderer renderer = new XYSplineRenderer(); // smoother?
 		renderer.setSeriesShapesVisible(0, false);

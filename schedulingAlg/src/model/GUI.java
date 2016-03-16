@@ -4,16 +4,9 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-import org.jfree.chart.ChartPanel;
-
-import grafiek.Grafiek;
-import grafiek.GrafiekWait;
 import listeners.listener_XML1;
 import listeners.listener_XML2;
 import listeners.listener_XML3;
-//import listeners.*;
-//import model.*;
-import scheduling.ProcessList;
 
 public class GUI extends JFrame {
 
@@ -25,9 +18,6 @@ public class GUI extends JFrame {
 	private JPanel p;
 	private JPanel ptop;
 	private JPanel pbottem;
-	private JPanel XML1graph;
-	private JPanel XML2graph;
-	private JPanel XML3graph;
 	private JScrollPane scrPane;
 
 	private JMenuBar menuBar;
@@ -94,18 +84,18 @@ public class GUI extends JFrame {
 		menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 
-		menu_dataSet = new JMenu("Data set");
+		menu_dataSet = new JMenu("Data set selecteren");
 		menuBar.add(menu_dataSet);
 
-		menuItem_XML1 = new JMenuItem("xml10000 dataset");
+		menuItem_XML1 = new JMenuItem("Selecteer xml10000 dataset");
 		menuItem_XML1.addActionListener(new listener_XML1(XML1graph, CL, chartPanel));
 		menu_dataSet.add(menuItem_XML1);
 
-		menuItem_XML2 = new JMenuItem("xml20000 dataset");
+		menuItem_XML2 = new JMenuItem("Selecteer xml20000 dataset");
 		menuItem_XML2.addActionListener(new listener_XML2(XML2graph, CL, chartPanel));
 		menu_dataSet.add(menuItem_XML2);
 
-		menuItem_XML5 = new JMenuItem("xml50000 dataset");
+		menuItem_XML5 = new JMenuItem("Selecteer xml50000 dataset");
 		menuItem_XML5.addActionListener(new listener_XML3(XML3graph, CL, chartPanel));
 		menu_dataSet.add(menuItem_XML5);
 
@@ -113,11 +103,11 @@ public class GUI extends JFrame {
 		menu_instellingen.setMnemonic(KeyEvent.VK_V);
 		menuBar.add(menu_instellingen);
 
-		menuItem_RR = new JMenuItem("q instellen voor RR");
+		menuItem_RR = new JMenuItem("q instellen voor RR (todo)");
 		// menuItem_RR.addActionListener();
 		menu_instellingen.add(menuItem_RR);
 
-		menuItem_MFM = new JMenuItem("q instellen voor MFM");
+		menuItem_MFM = new JMenuItem("q instellen voor MFM (todo)");
 		// menuItem_MFM.addActionListener();
 		menu_instellingen.add(menuItem_MFM);
 
