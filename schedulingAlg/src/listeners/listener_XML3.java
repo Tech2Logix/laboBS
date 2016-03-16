@@ -1,56 +1,49 @@
 package listeners;
 
 import java.awt.event.*;
-import java.io.File;
-
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
-
 import org.jfree.chart.ChartPanel;
 
 import grafiek.Grafiek;
 import grafiek.GrafiekWait;
-import scheduling.ProcessList;
-
+import scheduling.Algoritmen;
 import java.awt.*;
 
 public class listener_XML3 implements ActionListener {
-	private JPanel chartPanel;
-	private ChartPanel chart, chart2;
+	private Algoritmen alg = new Algoritmen("processen50000.xml");;
+	private CardLayout CL;
+	private JPanel chartPanel, waitEnNorTime;
 	
-	public listener_XML3(JPanel p) {
-		p.removeAll();
+	public listener_XML3(JPanel XML1graph, CardLayout CL, JPanel chartPanel) {
+		System.out.println("XML 50k set generated");
+		this.CL = CL;
+		this.chartPanel = chartPanel;
+		waitEnNorTime = new JPanel();
+		waitEnNorTime.setLayout(new BoxLayout(waitEnNorTime, 1));
 		
-		ProcessList processenLijst=new ProcessList();
-		try {
-			File file = new File("processen50000.xml");
-			JAXBContext jaxbContext = JAXBContext.newInstance(ProcessList.class);
-			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-			processenLijst = (ProcessList) jaxbUnmarshaller.unmarshal(file);
-		} catch (JAXBException e) {
-			e.printStackTrace();
-		}
 		
-		Grafiek g = new Grafiek("titelGrafiek", processenLijst);
-		chart = g.getChartPanel();
-		chartPanel = new JPanel();
-		chartPanel.setLayout(new BoxLayout(chartPanel, 1));
-		chartPanel.add(chart, BorderLayout.NORTH);
+		Grafiek g = new Grafiek("norRunTime", alg);
+		ChartPanel chart = g.getChartPanel();
+		waitEnNorTime.add(chart);
 		
-		GrafiekWait g2 =new GrafiekWait("titelGrafiek", processenLijst);
-		chart2 = g2.getChartPanel();
-		chartPanel.add(chart2, BorderLayout.SOUTH);
+		System.out.println("Eerste grafiek done");
 		
-		p.add(chartPanel, BorderLayout.SOUTH);
+		GrafiekWait g2 = new GrafiekWait("waitTime", alg);
+		ChartPanel chart2 = g2.getChartPanel();
+		waitEnNorTime.add(chart2);
+		
+		XML1graph.add(waitEnNorTime);
+		chartPanel.add("XML50000 dataset", XML1graph);
+		
+		System.out.println("Tweede grafiek done");
+		
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		System.out.println("XML 10k set applied");
-		
+		System.out.println("XML 50k set inserted");
+		CL.show(chartPanel, "XML50000 dataset");
 	}
 
 }

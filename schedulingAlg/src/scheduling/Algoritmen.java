@@ -1,5 +1,6 @@
 package scheduling;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Deque;
@@ -9,18 +10,45 @@ import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
+
 public class Algoritmen {
 	private double tijd, loper, grootteList, bedieningsTijd, aankomstTijd;
 	Process huidigProces;
 	double checksum;
+	ProcessList processen;
+	
+	public Algoritmen(String processListID) {
+		processen=new ProcessList();
+		try {
+			File file = new File(processListID);
+			JAXBContext jaxbContext = JAXBContext.newInstance(ProcessList.class);
+			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+			processen = (ProcessList) jaxbUnmarshaller.unmarshal(file);
+			//System.out.println(processenLijst);
+			//System.out.println(processenLijst.getSize());
+		} catch (JAXBException e) {
+			e.printStackTrace();
+		}
+	}
 
-	public void berekenFCFS(ProcessList processen) {
+	public ProcessList getProcessen() {
+		return processen;
+	}
+
+	public void setProcessen(ProcessList processen) {
+		this.processen = processen;
+	}
+
+	public void berekenFCFS() {
 		checksum = 0;
 
 		for (Process p : processen.getProcessenLijst()) {
 			checksum += p.getArrivaltime();
 		}
-		System.out.println(checksum);
+		//System.out.println(checksum);
 		tijd = 0;
 		loper = 0;
 		bedieningsTijd = 0;
@@ -46,7 +74,7 @@ public class Algoritmen {
 		}
 	}
 
-	public ProcessList berekenRR(ProcessList processen, int timeSlices) {
+	public ProcessList berekenRR(int timeSlices) {
 		ArrayList<Process> werk = new ArrayList<Process>();
 		ArrayList<Process> removeLijst = new ArrayList<Process>();
 		ProcessList temp = new ProcessList(processen);
@@ -108,7 +136,7 @@ public class Algoritmen {
 		return temp;
 	}
 
-	public ProcessList berekenHRRN(ProcessList processen) {
+	public ProcessList berekenHRRN() {
 		List<Process> werk = new ArrayList<Process>();
 		double tijd = 0;
 		// boolean bezet = false;
@@ -155,14 +183,14 @@ public class Algoritmen {
 		return processen;
 	}
 
-	public void berekenMLFB(ProcessList processen, int mode) { // mode 0: q=2^i
+	public void berekenMLFB(int mode) { // mode 0: q=2^i
 																// , mode 1: q=i
 		checksum = 0;
 
 		for (Process p : processen.getProcessenLijst()) {
 			checksum += p.getArrivaltime();
 		}
-		System.out.println(checksum);
+		//System.out.println(checksum);
 		processen.zetRemainingTerug(); // remainingServicetime stond nog op 0
 										// door berekenRR()
 		int huidigePrioriteit = 1;

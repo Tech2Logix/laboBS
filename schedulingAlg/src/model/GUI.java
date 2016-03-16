@@ -25,6 +25,9 @@ public class GUI extends JFrame {
 	private JPanel p;
 	private JPanel ptop;
 	private JPanel pbottem;
+	private JPanel XML1graph;
+	private JPanel XML2graph;
+	private JPanel XML3graph;
 	private JScrollPane scrPane;
 
 	private JMenuBar menuBar;
@@ -39,9 +42,9 @@ public class GUI extends JFrame {
 	
 	private JLabel lblNewLabel;
 	private JLabel lblNewLabel2;
-	private JPanel chartPanel;
-	private ChartPanel chart, chart2;
-	public GUI(ProcessList processenLijst) {
+	private JPanel chartPanel; //wrm geen private ChartPanel chartPanel; ?
+	
+	public GUI() {
 		p = new JPanel();
 		ptop = new JPanel();
 		pbottem = new JPanel();
@@ -57,17 +60,37 @@ public class GUI extends JFrame {
 		lblNewLabel2.setText("scheduling strategieën");
 		ptop.add(lblNewLabel2);
 
+		chartPanel = new JPanel();
+		/*
+		 * Probleem:
+		 * bij uitvoeren GUI worden al die ActionListeners uitgevoerd,
+		 * dus mijn oplossing:
+		 * CardLayout (zie https://docs.oracle.com/javase/tutorial/uiswing/layout/card.html)
+		 * -> en dan gwn knopke dat er voor zorgt dat we switchen tussen views
+		 * heeft voordeel dat er geen lagg zit tijdens de werken van programma...
+		 * maar wel zeer trage opstart :/
+		 */
+		CardLayout CL = new CardLayout(); 
+		chartPanel.setLayout(CL); //niet rechtstreeks doen want we moeten 
+								  //die layout nog aanpassen tijdens programma!
+		
+		JPanel XML1graph = new JPanel();
+		JPanel XML2graph = new JPanel();
+		JPanel XML3graph = new JPanel();
+		
+		/*
 		Grafiek g = new Grafiek("titelGrafiek", processenLijst);
 		chart = g.getChartPanel();
-		chartPanel = new JPanel();
-		chartPanel.setLayout(new BoxLayout(chartPanel, 1));
 		chartPanel.add(chart, BorderLayout.NORTH);
 		
 		GrafiekWait g2 =new GrafiekWait("titelGrafiek", processenLijst);
 		chart2 = g2.getChartPanel();
 		chartPanel.add(chart2, BorderLayout.SOUTH);
+		*/
 		
-
+		/***
+		 * Initiatie menubalk
+		 */
 		menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 
@@ -75,15 +98,15 @@ public class GUI extends JFrame {
 		menuBar.add(menu_dataSet);
 
 		menuItem_XML1 = new JMenuItem("xml10000 dataset");
-		menuItem_XML1.addActionListener(new listener_XML1(p));
+		menuItem_XML1.addActionListener(new listener_XML1(XML1graph, CL, chartPanel));
 		menu_dataSet.add(menuItem_XML1);
 
 		menuItem_XML2 = new JMenuItem("xml20000 dataset");
-		menuItem_XML2.addActionListener(new listener_XML2(p));
+		menuItem_XML2.addActionListener(new listener_XML2(XML2graph, CL, chartPanel));
 		menu_dataSet.add(menuItem_XML2);
 
 		menuItem_XML5 = new JMenuItem("xml50000 dataset");
-		menuItem_XML5.addActionListener(new listener_XML3(p));
+		menuItem_XML5.addActionListener(new listener_XML3(XML3graph, CL, chartPanel));
 		menu_dataSet.add(menuItem_XML5);
 
 		menu_instellingen = new JMenu("Instellingen");
@@ -100,7 +123,11 @@ public class GUI extends JFrame {
 
 		this.setTitle("Labo besturingssystemen: Uniprocessor scheduling algoritmhs");
 
-		p.add(chartPanel, BorderLayout.SOUTH);
+		
+		/***
+		 * instellingen GUI
+		 */
+		p.add(chartPanel);
 		
 		//this.getContentPane().add(p);
 		scrPane = new JScrollPane(p);

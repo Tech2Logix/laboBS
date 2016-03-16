@@ -21,11 +21,13 @@ public class GrafiekWait extends ApplicationFrame {
 	private static final long serialVersionUID = -5826676505576415011L;
 	String xAs, yAs, grafiekTitle, appTitle;
 	ChartPanel chartPanel1;
+	Algoritmen alg;
 
-	public GrafiekWait(String applicationTitle, ProcessList pl) {
+	public GrafiekWait(String applicationTitle, Algoritmen alg) {
 		super(applicationTitle);
-
-		final XYDataset dataset = createDataset(pl);
+		this.alg = alg;
+		
+		final XYDataset dataset = createDataset(alg.getProcessen());
 		final JFreeChart chart = createChart(dataset);
 		chartPanel1 = new ChartPanel(chart);
 		chartPanel1.setPreferredSize(new java.awt.Dimension(800, 450));
@@ -37,10 +39,8 @@ public class GrafiekWait extends ApplicationFrame {
 	}
 
 	private XYDataset createDataset(ProcessList pl) {
-		Algoritmen alg = new Algoritmen();
-
 		ProcessList werk = new ProcessList(pl);
-		alg.berekenFCFS(werk);
+		alg.berekenFCFS();
 		Percentiel p;
 		p = new Percentiel(werk); // opgelet, proceslijst is nu gesorteerd
 									// volgens servicetijd ipv. volgens
@@ -52,7 +52,7 @@ public class GrafiekWait extends ApplicationFrame {
 		System.out.println("FSFC done");
 
 		ProcessList werkRR = new ProcessList(pl);
-		werkRR = alg.berekenRR(werkRR, 8);
+		werkRR = alg.berekenRR(8);
 		p = new Percentiel(werkRR); // opgelet, proceslijst is nu gesorteerd
 									// volgens servicetijd ipv. volgens
 									// aankomsttijd
@@ -63,7 +63,7 @@ public class GrafiekWait extends ApplicationFrame {
 		System.out.println("RR done");
 
 		ProcessList werkHRRN = new ProcessList(pl);
-		ProcessList solution = alg.berekenHRRN(werkHRRN);
+		ProcessList solution = alg.berekenHRRN();
 		Percentiel pHRRN = new Percentiel(solution); // opgelet, proceslijst is
 														// nu gesorteerd volgens
 														// servicetijd ipv.
@@ -75,7 +75,7 @@ public class GrafiekWait extends ApplicationFrame {
 		System.out.println("HRRN done");
 
 		werk = new ProcessList(pl);
-		alg.berekenMLFB(werk,4);
+		alg.berekenMLFB(4);
 		p = new Percentiel(werk); // opgelet, proceslijst is nu gesorteerd
 									// volgens servicetijd ipv. volgens
 									// aankomsttijd

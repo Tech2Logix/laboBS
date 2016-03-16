@@ -12,7 +12,7 @@ import scheduling.ProcessList;
 public class Main {
 
 	public static void main(String[] args) {
-		ProcessList processenLijst=new ProcessList();
+		/*ProcessList processenLijst=new ProcessList();
 		//lees xml bestand in
 		try {
 			File file = new File("processen10000.xml");
@@ -24,10 +24,10 @@ public class Main {
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		}
-
+		*/
 		
 		//genereer grafiek
-		GUI gui = new GUI(processenLijst);
+		GUI gui = new GUI();
 		
 	}
 }
