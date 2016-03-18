@@ -131,7 +131,7 @@ public class Algoritmen {
 	}
 
 	public void berekenHRRN() {
-		System.out.print("MLFB ");
+		System.out.print("HRRN ");
 		ProcessList processLHRRN = new ProcessList(processen);
 		List<Process> werk = new ArrayList<Process>();
 		double tijd = 0;

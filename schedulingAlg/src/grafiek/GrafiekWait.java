@@ -3,6 +3,7 @@ package grafiek;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.LogarithmicAxis;
 import org.jfree.ui.ApplicationFrame;
 import scheduling.Algoritmen;
 import scheduling.Percentiel;
@@ -112,6 +113,15 @@ public class GrafiekWait extends ApplicationFrame {
 		renderer.setSeriesShapesVisible(3, false);
 		plot.setRenderer(renderer);
 
+
+
+		final LogarithmicAxis bedAxis= new LogarithmicAxis("Bedieningstijd");
+		bedAxis.setStandardTickUnits(LogarithmicAxis.createStandardTickUnits());
+		final LogarithmicAxis rangeAxis= new LogarithmicAxis("Wachttijd");
+		rangeAxis.setStandardTickUnits(LogarithmicAxis.createStandardTickUnits());
+		
+		plot.setDomainAxis(bedAxis);
+		plot.setRangeAxis(rangeAxis);
 		// change the auto tick unit selection to integer units only...
 		// final NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
 		// rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
