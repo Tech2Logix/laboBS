@@ -15,7 +15,6 @@ public class Algoritmen {
 	double checksum;
 	private ProcessList processen, FCFS, RR, HRRN, MLFB;
 
-
 	public Algoritmen(String processListID) {
 		processen = new ProcessList();
 		try {
@@ -68,64 +67,112 @@ public class Algoritmen {
 
 	public void berekenRR(int timeSlices) {
 		System.out.print("RR ");
+
 		ArrayList<Process> werk = new ArrayList<Process>();
 		ArrayList<Process> removeLijst = new ArrayList<Process>();
 		ProcessList temp = new ProcessList(processen);
-		// double overigeBedieningstijd;
 		double tijdsbeurt;
+		loper = 0;
+		grootteList = processen.getSize();
 
 		// begin:
-		tijd = temp.getProces(0).getArrivaltime();
-		loper = 1;
-
-		grootteList = processen.getSize();
-		werk.add(temp.getProces(0));
-		int loperWerk = 0;
-		int maxWerk = 1;
-		while (loper < grootteList) {
-
-			huidigProces = werk.get(loperWerk);
-			loperWerk++;
-			tijdsbeurt = Math.min(huidigProces.getRemainingServicetime(), timeSlices);
-			tijd += tijdsbeurt;
-			huidigProces.pasRemainingServicetimeAan(tijdsbeurt);
-
-			if (huidigProces.getRemainingServicetime() == 0) { // als proces
-																// voltooid is
-				huidigProces.setEndtime(tijd);
-				huidigProces.setRuntime(tijd - huidigProces.getArrivaltime());
-				huidigProces.setWaittime(tijd - huidigProces.getArrivaltime() - huidigProces.getServicetime());
-				huidigProces
-						.setNorRuntime((double) (huidigProces.echteGetNorRuntime()) / huidigProces.getServicetime());
-
-				removeLijst.add(huidigProces);
+		// tijd = temp.getProces(0).getArrivaltime();
+		// werk.add(temp.getProces(0));
+		// int loperWerk = 0;
+		// int maxWerk = 1;
+		while (loper < grootteList || !werk.isEmpty()) {
+			//for(Process p : temp.getProcessenLijst()) System.out.print("[ " + p.getEndtime() + "], ");
+			if (werk.isEmpty()) {
+				tijd = temp.getProces(loper).getArrivaltime();
+				//System.out.println(tijd);
+				werk.add(temp.getProces(loper));
+				loper++;
 			}
-			if ((loperWerk == maxWerk)) { // als we aan het einde van ons
-											// toertje zitten moeten we kijken
-											// of de volgende ondertussen ook al
-											// mogelijk is
-				if ((loper < grootteList) && (temp.getProces(loper).getArrivaltime() <= tijd)) {
+			//System.out.print(" " + loper + ", ");
+			while (loper != grootteList && tijd >= temp.getProcessenLijst().get((int) loper).getArrivaltime()) {
+				if (tijd >= temp.getProcessenLijst().get((int) loper).getArrivaltime()) {
 					werk.add(temp.getProces(loper));
 					loper++;
-					maxWerk++;
-				} else {
-					for (Process p : removeLijst) {
-						werk.remove(p);
-						maxWerk--;
-					}
-					removeLijst.clear();
-					loperWerk = 0; // we starten weer met het eerste proces in
-									// werk
 				}
 			}
 
-			if (werk.isEmpty()) {
-				tijd = temp.getProces(loper).getArrivaltime();
-				werk.add(temp.getProces(loper));
-				loper++;
-				maxWerk++;
+			for (Process p : werk) {
+				//System.out.print(" {"+p.getPid()+"}, ");
+				tijdsbeurt = Math.min(p.getRemainingServicetime(), timeSlices);
+				if (p.getStarttime() == 0) {
+					p.setStarttime(tijd);
+					p.setRemainingServicetime(p.getServicetime());
+				}
+				tijd += tijdsbeurt;
+				//System.out.println(tijd);
+				p.setRemainingServicetime(p.getRemainingServicetime() - tijdsbeurt);
+				if (p.getRemainingServicetime() == 0) {
+					p.setEndtime(tijd);
+//					p.setRuntime(p.getEndtime() - p.getStarttime());
+//					p.setWaittime(p.getRuntime() - p.getServicetime());
+//					if(p.getWaittime() != 0) p.setNorRuntime(p.getRuntime() / p.getWaittime());
+//					else p.setNorRuntime(1);
+					removeLijst.add(p);
+				}
 			}
+			for (Process p : removeLijst)
+				werk.remove(p);
+
+			// huidigProces = werk.get(loperWerk);
+			// if(huidigProces.getStarttime() == 0)
+			// huidigProces.setStarttime(tijd);
+			// loperWerk++;
+			// tijdsbeurt = Math.min(huidigProces.getRemainingServicetime(),
+			// timeSlices);
+			// tijd += tijdsbeurt;
+			// huidigProces.pasRemainingServicetimeAan(tijdsbeurt);
+			//
+			// if (huidigProces.getRemainingServicetime() == 0) { // als proces
+			// // voltooid is
+			// huidigProces.setEndtime(tijd);
+			// huidigProces.setRuntime(tijd - huidigProces.getArrivaltime());
+			// huidigProces.setWaittime(tijd - huidigProces.getArrivaltime() -
+			// huidigProces.getServicetime());
+			// huidigProces
+			// .setNorRuntime((double) (huidigProces.echteGetNorRuntime()) /
+			// huidigProces.getServicetime());
+			//
+			// removeLijst.add(huidigProces);
+			// }
+			// if ((loperWerk == maxWerk)) { // als we aan het einde van ons
+			// // toertje zitten moeten we kijken
+			// // of de volgende ondertussen ook al
+			// // mogelijk is
+			// if ((loper < grootteList) &&
+			// (temp.getProces(loper).getArrivaltime() <= tijd)) {
+			// werk.add(temp.getProces(loper));
+			// loper++;
+			// maxWerk++;
+			// } else {
+			// for (Process p : removeLijst) {
+			// werk.remove(p);
+			// maxWerk--;
+			// }
+			// removeLijst.clear();
+			// loperWerk = 0; // we starten weer met het eerste proces in
+			// // werk
+			// }
+			// }
+			//
+			// if (werk.isEmpty()) {
+			// tijd = temp.getProces(loper).getArrivaltime();
+			// werk.add(temp.getProces(loper));
+			// loper++;
+			// maxWerk++;
+			// }
 		}
+		for (Process p : temp.getProcessenLijst()) {
+			p.setRuntime(p.getEndtime() - p.getArrivaltime());
+			p.setWaittime(p.echteGetRuntime() - p.getServicetime());
+			if(p.getWaittime() != 0) p.setNorRuntime(p.echteGetRuntime() / p.getServicetime());
+			else p.setNorRuntime(1);
+		}
+		
 		System.out.print("done, ");
 		this.RR = temp;
 	}
@@ -189,7 +236,8 @@ public class Algoritmen {
 			checksum += p.getArrivaltime();
 		}
 
-		processLMLFB.zetRemainingTerug(); // remainingServicetime stond nog op 0 door berekenRR()
+		processLMLFB.zetRemainingTerug(); // remainingServicetime stond nog op 0
+											// door berekenRR()
 		int huidigePrioriteit = 1;
 		double tijdsBeurt;
 		tijd = processLMLFB.getProces(0).getArrivaltime();
@@ -219,7 +267,9 @@ public class Algoritmen {
 			if (queues.get(huidigePrioriteit - 1).isEmpty()) {
 				if (huidigePrioriteit != 4) {
 					huidigePrioriteit++;
-				} else if (loper < grootteList) {// als er in geen enkele queue nog een taak zit => tijdssprong
+				} else if (loper < grootteList) {// als er in geen enkele queue
+													// nog een taak zit =>
+													// tijdssprong
 					tijd = processLMLFB.getProces(loper).getArrivaltime();
 					prioriteit1.add(processLMLFB.getProces(loper));
 					huidigePrioriteit = 1;
@@ -232,27 +282,34 @@ public class Algoritmen {
 				tijdsBeurt = Math.min(huidigProces.getRemainingServicetime(), tijdsBeurten[huidigePrioriteit - 1]);
 				tijd += tijdsBeurt;
 				huidigProces.pasRemainingServicetimeAan(tijdsBeurt);
-				if (huidigProces.getRemainingServicetime() == 0) {// als een proces klaar is
+				if (huidigProces.getRemainingServicetime() == 0) {// als een
+																	// proces
+																	// klaar is
 					huidigProces.setEndtime(tijd);
 					huidigProces.setRuntime(tijd - huidigProces.getArrivaltime());
 					huidigProces.setNorRuntime((double) huidigProces.echteGetRuntime() / huidigProces.getServicetime());
 					huidigProces.setWaittime(huidigProces.echteGetRuntime() - huidigProces.getServicetime());
 					queues.get(huidigePrioriteit - 1).remove(huidigProces);
-				} else if (huidigePrioriteit != 4) {// als het laatste proces nog niet klaar is
+				} else if (huidigePrioriteit != 4) {// als het laatste proces
+													// nog niet klaar is
 					queues.get(huidigePrioriteit).add(huidigProces);
 					queues.get(huidigePrioriteit - 1).remove(huidigProces);
-				} else if (huidigePrioriteit == 4) { // proces weer achteraan in de rij plaatsen
+				} else if (huidigePrioriteit == 4) { // proces weer achteraan in
+														// de rij plaatsen
 					prioriteit4.remove(huidigProces);
 					prioriteit4.add(huidigProces);
 				}
 
-				// na iedere taak kijken of in prioriteit 1 nog een taak bijkomt:
+				// na iedere taak kijken of in prioriteit 1 nog een taak
+				// bijkomt:
 				mogelijksNieuwProces = true;
 				while ((mogelijksNieuwProces) && (loper < grootteList)) {
 					if (processLMLFB.getProces(loper).getArrivaltime() <= tijd) {
 						prioriteit1.add(processLMLFB.getProces(loper));
 						loper++;
-						huidigePrioriteit = 1; // indien geen nieuw process mag de huidige prioriteit blijven waar hij was
+						huidigePrioriteit = 1; // indien geen nieuw process mag
+												// de huidige prioriteit blijven
+												// waar hij was
 					} else {
 						mogelijksNieuwProces = false;
 					}
@@ -262,7 +319,6 @@ public class Algoritmen {
 		System.out.println("done...");
 		this.MLFB = processLMLFB;
 	}
-	
 
 	public ProcessList getFCFS() {
 		return FCFS;

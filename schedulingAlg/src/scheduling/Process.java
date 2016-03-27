@@ -3,8 +3,9 @@ import javax.xml.bind.annotation.*;
 
 @XmlRootElement( name = "process")
 public class Process implements Comparable<Process>{
-	private double pid, arrivaltime, servicetime, remainingServicetime, endtime, runtime, waittime;
+	private double pid, arrivaltime, servicetime, remainingServicetime, starttime, endtime, runtime, waittime;
 	double norRuntime;
+	boolean klaar;
 	//private double HRRNPriority;
 	
 	public Process(Process p) {
@@ -12,12 +13,34 @@ public class Process implements Comparable<Process>{
 		this.arrivaltime = p.arrivaltime;
 		this.servicetime = p.servicetime;
 		this.remainingServicetime = p.remainingServicetime;
+		this.starttime = p.starttime;
 		this.endtime = p.endtime;
 		this.runtime = p.runtime;
 		this.waittime = p.waittime;
 		this.norRuntime = p.norRuntime;
+		this.klaar = p.klaar;
 	}
 	
+	public double getStarttime() {
+		return starttime;
+	}
+
+	public void setStarttime(double starttime) {
+		this.starttime = starttime;
+	}
+
+	public boolean isKlaar() {
+		return klaar;
+	}
+
+	public void setKlaar(boolean klaar) {
+		this.klaar = klaar;
+	}
+
+	public void setRemainingServicetime(double remainingServicetime) {
+		this.remainingServicetime = remainingServicetime;
+	}
+
 	public Process() {
 	}
 	
@@ -116,5 +139,21 @@ public class Process implements Comparable<Process>{
 	public void setRemaining(){
 		remainingServicetime = servicetime;
 	}
+
+	public void addRuntime(double timeSlices) {
+		runtime += timeSlices;
+	}
+	
+	public void print() {
+        System.out.println("PID: " + pid);
+        System.out.println("Arrival: " + arrivaltime);
+		System.out.println("Service: " + servicetime
+                + "\nStart: " + starttime
+                + "\nEnd: " + endtime
+                + "\nTAT: " + runtime
+                + "\nnormTAT: "+ norRuntime
+                + "\nwait: "+ waittime +"\n");
+
+    }
 	
 }

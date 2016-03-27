@@ -60,7 +60,7 @@ public class ProcessList {
 	public void printList(){
 		int max=processenLijst.size();
 		for(int i=0;i<max;i++){
-			System.out.println(processenLijst.get(i).getServicetime());
+			processenLijst.get(i).print();
 		}
 	}
 	

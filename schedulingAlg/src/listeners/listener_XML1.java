@@ -11,7 +11,7 @@ import scheduling.Algoritmen;
 import java.awt.*;
 
 public class listener_XML1 implements ActionListener {
-	private Algoritmen alg = new Algoritmen("processen10000.xml");;
+	private Algoritmen alg = new Algoritmen("processen10000.xml");
 	private CardLayout CL;
 	private JPanel chartPanel, waitEnNorTime;
 	
