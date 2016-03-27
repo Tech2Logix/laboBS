@@ -181,48 +181,43 @@ public class Algoritmen {
 		System.out.print("HRRN ");
 		ProcessList processLHRRN = new ProcessList(processen);
 		List<Process> werk = new ArrayList<Process>();
-		double tijd = 0;
-		// boolean bezet = false;
-		for (int i = 0; i < processLHRRN.getSize(); i++) {
-			Process temp = processLHRRN.getProces(i);
-			if (werk.size() == 0 && tijd <= temp.getArrivaltime()) {
-				tijd = temp.getArrivaltime();
-				temp.setWaittime(tijd - temp.getArrivaltime());
+		Process temp;
+		double tijd, maxExpectedTAT;
+		int max = processLHRRN.getSize();
+		loper =1;
+		
+		//EERSTE PROCES TOEVOEGEN:
+		temp = processLHRRN.getProces(0);
+		werk.add(temp);
+		tijd = temp.getArrivaltime();
+		temp.setWaittime(0);
+		temp.setNorRuntime(1); // dit is nog niet de definitieve NorRuntime, maar de exptected NorRuntime
+		
+		while((loper < max) || (!werk.isEmpty()) ){
+			if((loper < max) && (processLHRRN.getProces(loper).getArrivaltime() <= tijd)){
+				temp = processLHRRN.getProces(loper);
+				werk.add(temp);
+				temp.setWaittime(tijd-temp.getArrivaltime());
+				temp.setNorRuntime( (temp.getWaittime()+temp.getServicetime()) / temp.getServicetime());
+				loper++;
+			}
+			else{
+				maxExpectedTAT=0;
+				for(Process p: werk){
+					if (p.getNorRuntime() > maxExpectedTAT){
+						maxExpectedTAT = p.getNorRuntime();
+						temp = p;
+					}
+				}
 				tijd += temp.getServicetime();
 				temp.setEndtime(tijd);
-			} else {
-				int j = i; // iets fucked up hier... Maar werkt wel blijkbaar,
-							// probeersel van op trein.
-				// Mischien toch iets duidelijker te proberen herschrijven..
-				while ((j < processLHRRN.getSize()) && (tijd > processLHRRN.getProces(j).getArrivaltime())) {
-					werk.add(processLHRRN.getProces(j));
-					j++;
-				}
-				i = j - 1;
-
-				for (Process p : werk) { // update waitTime
-					p.setWaittime(tijd - p.getArrivaltime());
-				}
-
-				// blijkbaar is zo'n lambda uitdrukking nog iet handig :p
-				Collections.sort(werk,
-						(Process p1, Process p2) -> Double.compare(p2.getNorRuntime(), p1.getNorRuntime()));
-
-				while (werk.size() != 0) {
-					Process uitvoeren = werk.get(0);
-					werk.remove(0);
-					tijd += uitvoeren.getServicetime();
-					uitvoeren.setEndtime(tijd);
-					/*
-					 * for (Process p : werk) { //update waitTime
-					 * p.setWaittime(tijd - p.getArrivaltime()); }
-					 * 
-					 * Collections.sort(werk, (Process p1, Process p2) ->
-					 * Double.compare(p2.getNorRuntime(), p1.getNorRuntime()));
-					 */
-				}
+				temp.setRuntime(tijd - temp.getArrivaltime());
+				temp.setNorRuntime(temp.echteGetRuntime() / temp.getServicetime());
+				temp.setWaittime(temp.echteGetRuntime() - temp.getServicetime());
+				werk.remove(temp);
 			}
 		}
+		
 		System.out.print("done, ");
 		this.HRRN = processLHRRN;
 	}
