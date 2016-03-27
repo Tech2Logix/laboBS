@@ -2,7 +2,6 @@ package scheduling;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import javax.xml.bind.JAXBContext;
@@ -71,102 +70,40 @@ public class Algoritmen {
 		ArrayList<Process> werk = new ArrayList<Process>();
 		ArrayList<Process> removeLijst = new ArrayList<Process>();
 		ProcessList temp = new ProcessList(processen);
+		LinkedList<Process> tempLijst = temp.getProcessenLijst();
 		double tijdsbeurt;
-		loper = 0;
-		grootteList = processen.getSize();
+		int loperInt = 0;
+		grootteList = tempLijst.size();
 
-		// begin:
-		// tijd = temp.getProces(0).getArrivaltime();
-		// werk.add(temp.getProces(0));
-		// int loperWerk = 0;
-		// int maxWerk = 1;
-		while (loper < grootteList || !werk.isEmpty()) {
-			//for(Process p : temp.getProcessenLijst()) System.out.print("[ " + p.getEndtime() + "], ");
+
+		while (loperInt < grootteList || !werk.isEmpty()) {
 			if (werk.isEmpty()) {
-				tijd = temp.getProces(loper).getArrivaltime();
-				//System.out.println(tijd);
-				werk.add(temp.getProces(loper));
-				loper++;
+				tijd = tempLijst.get(loperInt).getArrivaltime();
+				werk.add(tempLijst.get(loperInt));
+				loperInt++;
 			}
-			//System.out.print(" " + loper + ", ");
-			while (loper != grootteList && tijd >= temp.getProcessenLijst().get((int) loper).getArrivaltime()) {
-				if (tijd >= temp.getProcessenLijst().get((int) loper).getArrivaltime()) {
-					werk.add(temp.getProces(loper));
-					loper++;
-				}
+			while ( (loperInt != grootteList) && (tijd >= tempLijst.get(loperInt).getArrivaltime())) {
+				werk.add(tempLijst.get(loperInt));
+				loperInt++;
 			}
 
 			for (Process p : werk) {
-				//System.out.print(" {"+p.getPid()+"}, ");
 				tijdsbeurt = Math.min(p.getRemainingServicetime(), timeSlices);
-				if (p.getStarttime() == 0) {
-					p.setStarttime(tijd);
-					p.setRemainingServicetime(p.getServicetime());
-				}
+				//if (p.getStarttime() == 0) {
+				//	p.setStarttime(tijd);
+				//	p.setRemainingServicetime(p.getServicetime());
+				//}
 				tijd += tijdsbeurt;
-				//System.out.println(tijd);
 				p.setRemainingServicetime(p.getRemainingServicetime() - tijdsbeurt);
 				if (p.getRemainingServicetime() == 0) {
 					p.setEndtime(tijd);
-//					p.setRuntime(p.getEndtime() - p.getStarttime());
-//					p.setWaittime(p.getRuntime() - p.getServicetime());
-//					if(p.getWaittime() != 0) p.setNorRuntime(p.getRuntime() / p.getWaittime());
-//					else p.setNorRuntime(1);
 					removeLijst.add(p);
 				}
 			}
 			for (Process p : removeLijst)
 				werk.remove(p);
-
-			// huidigProces = werk.get(loperWerk);
-			// if(huidigProces.getStarttime() == 0)
-			// huidigProces.setStarttime(tijd);
-			// loperWerk++;
-			// tijdsbeurt = Math.min(huidigProces.getRemainingServicetime(),
-			// timeSlices);
-			// tijd += tijdsbeurt;
-			// huidigProces.pasRemainingServicetimeAan(tijdsbeurt);
-			//
-			// if (huidigProces.getRemainingServicetime() == 0) { // als proces
-			// // voltooid is
-			// huidigProces.setEndtime(tijd);
-			// huidigProces.setRuntime(tijd - huidigProces.getArrivaltime());
-			// huidigProces.setWaittime(tijd - huidigProces.getArrivaltime() -
-			// huidigProces.getServicetime());
-			// huidigProces
-			// .setNorRuntime((double) (huidigProces.echteGetNorRuntime()) /
-			// huidigProces.getServicetime());
-			//
-			// removeLijst.add(huidigProces);
-			// }
-			// if ((loperWerk == maxWerk)) { // als we aan het einde van ons
-			// // toertje zitten moeten we kijken
-			// // of de volgende ondertussen ook al
-			// // mogelijk is
-			// if ((loper < grootteList) &&
-			// (temp.getProces(loper).getArrivaltime() <= tijd)) {
-			// werk.add(temp.getProces(loper));
-			// loper++;
-			// maxWerk++;
-			// } else {
-			// for (Process p : removeLijst) {
-			// werk.remove(p);
-			// maxWerk--;
-			// }
-			// removeLijst.clear();
-			// loperWerk = 0; // we starten weer met het eerste proces in
-			// // werk
-			// }
-			// }
-			//
-			// if (werk.isEmpty()) {
-			// tijd = temp.getProces(loper).getArrivaltime();
-			// werk.add(temp.getProces(loper));
-			// loper++;
-			// maxWerk++;
-			// }
 		}
-		for (Process p : temp.getProcessenLijst()) {
+		for (Process p : tempLijst) {
 			p.setRuntime(p.getEndtime() - p.getArrivaltime());
 			p.setWaittime(p.echteGetRuntime() - p.getServicetime());
 			if(p.getWaittime() != 0) p.setNorRuntime(p.echteGetRuntime() / p.getServicetime());
@@ -184,7 +121,7 @@ public class Algoritmen {
 		Process temp;
 		double tijd, maxExpectedTAT;
 		int max = processLHRRN.getSize();
-		loper =1;
+		loper =0;
 		
 		//EERSTE PROCES TOEVOEGEN:
 		temp = processLHRRN.getProces(0);
