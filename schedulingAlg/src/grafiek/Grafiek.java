@@ -13,6 +13,8 @@ import org.jfree.chart.renderer.xy.XYSplineRenderer;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
+
+import java.awt.BasicStroke;
 import java.awt.Color;
 
 public class Grafiek extends ApplicationFrame {
@@ -148,13 +150,9 @@ public class Grafiek extends ApplicationFrame {
 		plot.setRangeGridlinePaint(Color.white);
 
 		final XYSplineRenderer renderer = new XYSplineRenderer(); // smoother?
-		renderer.setSeriesShapesVisible(0, true);
-		renderer.setSeriesShapesVisible(1, true);
-		renderer.setSeriesShapesVisible(2, true);
-		renderer.setSeriesShapesVisible(3, true);
-		renderer.setSeriesShapesVisible(4, true);
-		renderer.setSeriesShapesVisible(5, true);
-		renderer.setSeriesShapesVisible(6, true);
+		for(int i=0; i<7; i++) {
+			renderer.setSeriesShapesVisible(i, true);
+		}
 		plot.setRenderer(renderer);
 
 		final LogarithmicAxis bedAxis = new LogarithmicAxis("Bedieningstijd");

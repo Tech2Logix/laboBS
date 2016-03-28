@@ -101,8 +101,11 @@ public class GrafiekWait extends ApplicationFrame {
 		final XYSeriesCollection dataset = new XYSeriesCollection();
 		dataset.addSeries(series1);
 		dataset.addSeries(series2);
+		dataset.addSeries(series21);
+		dataset.addSeries(series22);
 		dataset.addSeries(series3);
 		dataset.addSeries(series4);
+		dataset.addSeries(series41);
 
 		return dataset;
 	}
@@ -128,10 +131,9 @@ public class GrafiekWait extends ApplicationFrame {
 
 
 		final XYSplineRenderer renderer = new XYSplineRenderer(); // smoother?
-		renderer.setSeriesShapesVisible(0, false);
-		renderer.setSeriesShapesVisible(1, false);
-		renderer.setSeriesShapesVisible(2, false);
-		renderer.setSeriesShapesVisible(3, false);
+		for(int i=0; i<7; i++) {
+			renderer.setSeriesShapesVisible(i, true);
+		}
 		plot.setRenderer(renderer);
 
 
