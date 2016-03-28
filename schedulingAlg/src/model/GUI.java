@@ -1,7 +1,7 @@
 package model;
 
 import java.awt.*;
-import java.awt.event.*;
+//import java.awt.event.*;
 import javax.swing.*;
 
 import listeners.listener_XML1;
@@ -26,9 +26,9 @@ public class GUI extends JFrame {
 	private JMenuItem menuItem_XML2;
 	private JMenuItem menuItem_XML5;
 
-	private JMenu menu_instellingen;
-	private JMenuItem menuItem_RR;
-	private JMenuItem menuItem_MFM;
+//	private JMenu menu_instellingen;
+//	private JMenuItem menuItem_RR;
+//	private JMenuItem menuItem_MFM;
 	
 	private JLabel lblNewLabel;
 	private JLabel lblNewLabel2;
@@ -41,7 +41,7 @@ public class GUI extends JFrame {
 
 		getContentPane().add(ptop, BorderLayout.NORTH);
 		getContentPane().add(pbottem, BorderLayout.SOUTH);
-		setSize(850, 1030);
+		setSize(1250, 1030);
 		
 		lblNewLabel = new JLabel("3ELICTI - 2015/2016 - Michiel Dhont & Rhino Van Boxelaere");
 		pbottem.add(lblNewLabel);
@@ -92,24 +92,24 @@ public class GUI extends JFrame {
 		menu_dataSet.add(menuItem_XML1);
 
 		menuItem_XML2 = new JMenuItem("Selecteer xml20000 dataset");
-		//menuItem_XML2.addActionListener(new listener_XML2(XML2graph, CL, chartPanel));
+		menuItem_XML2.addActionListener(new listener_XML2(XML2graph, CL, chartPanel));
 		menu_dataSet.add(menuItem_XML2);
 
 		menuItem_XML5 = new JMenuItem("Selecteer xml50000 dataset");
-		//menuItem_XML5.addActionListener(new listener_XML3(XML3graph, CL, chartPanel));
+		menuItem_XML5.addActionListener(new listener_XML3(XML3graph, CL, chartPanel));
 		menu_dataSet.add(menuItem_XML5);
 
-		menu_instellingen = new JMenu("Instellingen");
-		menu_instellingen.setMnemonic(KeyEvent.VK_V);
-		menuBar.add(menu_instellingen);
-
-		menuItem_RR = new JMenuItem("q instellen voor RR (todo)");
-		// menuItem_RR.addActionListener();
-		menu_instellingen.add(menuItem_RR);
-
-		menuItem_MFM = new JMenuItem("q instellen voor MFM (todo)");
-		// menuItem_MFM.addActionListener();
-		menu_instellingen.add(menuItem_MFM);
+//		menu_instellingen = new JMenu("Instellingen");
+//		menu_instellingen.setMnemonic(KeyEvent.VK_V);
+//		menuBar.add(menu_instellingen);
+//
+//		menuItem_RR = new JMenuItem("q instellen voor RR (todo)");
+//		// menuItem_RR.addActionListener();
+//		menu_instellingen.add(menuItem_RR);
+//
+//		menuItem_MFM = new JMenuItem("q instellen voor MFM (todo)");
+//		// menuItem_MFM.addActionListener();
+//		menu_instellingen.add(menuItem_MFM);
 
 		this.setTitle("Labo besturingssystemen: Uniprocessor scheduling algoritmhs");
 

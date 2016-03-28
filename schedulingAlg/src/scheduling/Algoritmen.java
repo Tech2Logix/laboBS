@@ -113,54 +113,49 @@ public class Algoritmen {
 		}
 
 		System.out.print("done, ");
-		if(timeSlices==2) this.RR2 = temp;
-		else if(timeSlices==4) this.RR4 = temp;
-		else this.RR8 = temp;
+		if (timeSlices == 2)
+			this.RR2 = temp;
+		else if (timeSlices == 4)
+			this.RR4 = temp;
+		else
+			this.RR8 = temp;
 	}
 
 	public void berekenHRRN() {
 		System.out.print("HRRN ");
 		ProcessList processLHRRN = new ProcessList(processen);
 		List<Process> werk = new ArrayList<Process>();
-		double tijd = 0;
-		// boolean bezet = false;
-		for (int i = 0; i < processLHRRN.getSize(); i++) {
+		tijd = 0;
+		loper = 0;
+		grootteList = processLHRRN.getSize();
+
+		for (int i = 0; i < grootteList; i++) {
 			Process temp = processLHRRN.getProces(i);
-			if (werk.size() == 0 && tijd <= temp.getArrivaltime()) {
+			if (werk.isEmpty() && tijd <= temp.getArrivaltime()) {
 				tijd = temp.getArrivaltime();
 				temp.setWaittime(tijd - temp.getArrivaltime());
 				tijd += temp.getServicetime();
 				temp.setEndtime(tijd);
 			} else {
-				int j = i; // iets fucked up hier... Maar werkt wel blijkbaar,
-							// probeersel van op trein.
-				// Mischien toch iets duidelijker te proberen herschrijven..
-				while ((j < processLHRRN.getSize()) && (tijd > processLHRRN.getProces(j).getArrivaltime())) {
-					werk.add(processLHRRN.getProces(j));
-					j++;
+				loper = i; // for i-lus updaten
+				while ((loper < grootteList) && (tijd > processLHRRN.getProces((int) loper).getArrivaltime())) {
+					werk.add(processLHRRN.getProces(loper));
+					loper++;
 				}
-				i = j - 1;
-
-				for (Process p : werk) { // update waitTime
-					p.setWaittime(tijd - p.getArrivaltime());
-				}
+				i = (int) (loper - 1);
 
 				// blijkbaar is zo'n lambda uitdrukking nog iet handig :p
 				Collections.sort(werk,
 						(Process p1, Process p2) -> Double.compare(p2.getNorRuntime(), p1.getNorRuntime()));
-
+				
+				for (Process p : werk) // update waitTime
+					p.setWaittime(tijd - p.getArrivaltime());
+				
 				while (werk.size() != 0) {
 					Process uitvoeren = werk.get(0);
 					werk.remove(0);
 					tijd += uitvoeren.getServicetime();
 					uitvoeren.setEndtime(tijd);
-					/*
-					 * for (Process p : werk) { //update waitTime
-					 * p.setWaittime(tijd - p.getArrivaltime()); }
-					 * 
-					 * Collections.sort(werk, (Process p1, Process p2) ->
-					 * Double.compare(p2.getNorRuntime(), p1.getNorRuntime()));
-					 */
 				}
 			}
 		}
@@ -258,8 +253,10 @@ public class Algoritmen {
 			}
 		}
 		System.out.print("done...");
-		if(mode ==0) this.MLFB0 = processLMLFB;
-		else this.MLFB1 = processLMLFB;
+		if (mode == 0)
+			this.MLFB0 = processLMLFB;
+		else
+			this.MLFB1 = processLMLFB;
 	}
 
 	public ProcessList getFCFS() {
@@ -269,8 +266,6 @@ public class Algoritmen {
 	public void setFCFS(ProcessList fCFS) {
 		FCFS = fCFS;
 	}
-
-
 
 	public ProcessList getRR2() {
 		return RR2;
@@ -319,7 +314,6 @@ public class Algoritmen {
 	public void setHRRN(ProcessList hRRN) {
 		HRRN = hRRN;
 	}
-
 
 	public ProcessList getProcessen() {
 		return processen;

@@ -24,9 +24,13 @@ public class listener_XML3 implements ActionListener {
 		waitEnNorTime.setLayout(new BoxLayout(waitEnNorTime, 1));
 		
 		alg.berekenFCFS();
+		alg.berekenRR(2);
+		alg.berekenRR(4);
 		alg.berekenRR(8);
 		alg.berekenHRRN();
-		alg.berekenMLFB(4);
+		alg.berekenMLFB(0);
+		alg.berekenMLFB(1);
+		System.out.println();
 
 		System.out.print("Eerste grafiek genereren... ");
 		Grafiek g = new Grafiek("norRunTime", alg);

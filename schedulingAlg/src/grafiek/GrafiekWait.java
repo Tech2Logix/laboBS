@@ -9,6 +9,7 @@ import scheduling.Algoritmen;
 import scheduling.Percentiel;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.chart.renderer.xy.XYSplineRenderer;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
@@ -87,7 +88,7 @@ public class GrafiekWait extends ApplicationFrame {
 		for (int i = 0; i < 100; i++) {
 			series4.add(p.getProces(i).getServicetime(), p.getProces(i).getWaittime());
 		}
-		System.out.println("MLFB done... ");
+		System.out.print("MLFB done... ");
 		
 		p = new Percentiel(alg.getMLFB1());
 		final XYSeries series41 = new XYSeries("MLFB (q=2^i)");
@@ -130,9 +131,9 @@ public class GrafiekWait extends ApplicationFrame {
 		plot.setRangeGridlinePaint(Color.white);
 
 
-		final XYSplineRenderer renderer = new XYSplineRenderer(); // smoother?
+		final XYLineAndShapeRenderer  renderer = new XYLineAndShapeRenderer (); // smoother?
 		for(int i=0; i<7; i++) {
-			renderer.setSeriesShapesVisible(i, true);
+			renderer.setSeriesShapesVisible(i, false);
 		}
 		plot.setRenderer(renderer);
 
