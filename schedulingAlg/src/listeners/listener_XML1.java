@@ -25,7 +25,7 @@ public class listener_XML1 implements ActionListener {
 		alg.berekenFCFS();
 		alg.berekenRR(8);
 		alg.berekenHRRN();
-		alg.berekenMLFB(4);
+		alg.berekenMLFB(1);
 		
 		System.out.print("Eerste grafiek genereren... ");
 		Grafiek g = new Grafiek("norRunTime", alg);

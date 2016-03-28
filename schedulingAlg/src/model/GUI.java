@@ -92,11 +92,11 @@ public class GUI extends JFrame {
 		menu_dataSet.add(menuItem_XML1);
 
 		menuItem_XML2 = new JMenuItem("Selecteer xml20000 dataset");
-		menuItem_XML2.addActionListener(new listener_XML2(XML2graph, CL, chartPanel));
+		//menuItem_XML2.addActionListener(new listener_XML2(XML2graph, CL, chartPanel));
 		menu_dataSet.add(menuItem_XML2);
 
 		menuItem_XML5 = new JMenuItem("Selecteer xml50000 dataset");
-		menuItem_XML5.addActionListener(new listener_XML3(XML3graph, CL, chartPanel));
+		//menuItem_XML5.addActionListener(new listener_XML3(XML3graph, CL, chartPanel));
 		menu_dataSet.add(menuItem_XML5);
 
 		menu_instellingen = new JMenu("Instellingen");
