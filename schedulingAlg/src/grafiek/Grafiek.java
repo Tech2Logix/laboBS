@@ -40,60 +40,97 @@ public class Grafiek extends ApplicationFrame {
 	}
 
 	private XYDataset createDataset() {
-		p = new Percentiel(alg.getFCFS());	// opgelet, proceslijst is nu 
-												// gesorteerd volgens servicetijd ipv. volgens aankomsttijd
+		p = new Percentiel(alg.getFCFS()); // opgelet, proceslijst is nu
+											// gesorteerd volgens servicetijd
+											// ipv. volgens aankomsttijd
 		final XYSeries series1 = new XYSeries("FCFS");
 		for (int i = 0; i < 100; i++) {
+			System.out.println(i +": "+ p.getProces(i).getServicetime() + "    " + p.getProces(i).getNorRuntime() + "    " + p.getProces(i).getWaittime());
 			series1.addOrUpdate(p.getProces(i).getServicetime(), p.getProces(i).getNorRuntime());
 		}
 		System.out.print("FSFC done, ");
 
-		
-		
-		p = new Percentiel(alg.getRR()); 	// opgelet, proceslijst is nu 
-												// gesorteerd volgens servicetijd ipv. volgens aankomsttijd
-		final XYSeries series2 = new XYSeries("RR");
+		p = new Percentiel(alg.getRR2()); // opgelet, proceslijst is nu
+											// gesorteerd volgens servicetijd
+											// ipv. volgens aankomsttijd
+		final XYSeries series2 = new XYSeries("RR (q=2)");
 		for (int i = 0; i < 100; i++) {
+			System.out.println(i +": "+ p.getProces(i).getServicetime() + "    " + p.getProces(i).getNorRuntime() + "    " + p.getProces(i).getWaittime());
 			series2.add(p.getProces(i).getServicetime(), p.getProces(i).echteGetNorRuntime());
 		}
 		System.out.print("RR done, ");
 
-		
-		
-		Percentiel pHRRN = new Percentiel(alg.getHRRN()); 	// opgelet, proceslijst is nu 
-																// gesorteerd volgens servicetijd ipv. volgens aankomsttijd
+		p = new Percentiel(alg.getRR4()); // opgelet, proceslijst is nu
+		// gesorteerd volgens servicetijd ipv. volgens aankomsttijd
+		final XYSeries series21 = new XYSeries("RR (q=4)");
+		for (int i = 0; i < 100; i++) {
+			System.out.println(i +": "+ p.getProces(i).getServicetime() + "    " + p.getProces(i).getNorRuntime() + "    " + p.getProces(i).getWaittime());
+			series21.add(p.getProces(i).getServicetime(), p.getProces(i).echteGetNorRuntime());
+		}
+		System.out.print("RR done, ");
+
+		p = new Percentiel(alg.getRR8()); // opgelet, proceslijst is nu
+		// gesorteerd volgens servicetijd ipv. volgens aankomsttijd
+		final XYSeries series22 = new XYSeries("RR (q=8)");
+		for (int i = 0; i < 100; i++) {
+			System.out.println(i +": "+ p.getProces(i).getServicetime() + "    " + p.getProces(i).getNorRuntime() + "    " + p.getProces(i).getWaittime());
+			series22.add(p.getProces(i).getServicetime(), p.getProces(i).echteGetNorRuntime());
+		}
+		System.out.print("RR done, ");
+
+		Percentiel pHRRN = new Percentiel(alg.getHRRN()); // opgelet,
+															// proceslijst is nu
+															// gesorteerd
+															// volgens
+															// servicetijd ipv.
+															// volgens
+															// aankomsttijd
 		final XYSeries series3 = new XYSeries("HRRN");
 		for (int i = 0; i < 100; i++) {
-
+			System.out.println(i +": "+ p.getProces(i).getServicetime() + "    " + p.getProces(i).getNorRuntime() + "    " + p.getProces(i).getWaittime());
 			series3.add(pHRRN.getProces(i).getServicetime(), pHRRN.getProces(i).getNorRuntime());
 		}
 		System.out.print("HRRN done, ");
 
-		
-		
-		p = new Percentiel(alg.getMLFB()); // opgelet, proceslijst is nu
-												// gesorteerd volgens servicetijd ipv. volgens aankomsttijd
+		p = new Percentiel(alg.getMLFB0()); // opgelet, proceslijst is nu
+											// gesorteerd volgens servicetijd
+											// ipv. volgens aankomsttijd
 
-		final XYSeries series4 = new XYSeries("MLFB");
+		final XYSeries series4 = new XYSeries("MLFB (q=i)");
 		for (int i = 0; i < 100; i++) {
+			System.out.println(i +": "+ p.getProces(i).getServicetime() + "    " + p.getProces(i).getNorRuntime() + "    " + p.getProces(i).getWaittime());
 			series4.add(p.getProces(i).getServicetime(), p.getProces(i).getNorRuntime());
+		}
+		System.out.print("MLFB done... ");
+
+		
+		p = new Percentiel(alg.getMLFB1()); // opgelet, proceslijst is nu
+		// gesorteerd volgens servicetijd
+		// ipv. volgens aankomsttijd
+
+		final XYSeries series41 = new XYSeries("MLFB (q=2^i)");
+		for (int i = 0; i < 100; i++) {
+			System.out.println(i +": "+ p.getProces(i).getServicetime() + "    " + p.getProces(i).getNorRuntime() + "    " + p.getProces(i).getWaittime());
+			series41.add(p.getProces(i).getServicetime(), p.getProces(i).getNorRuntime());
 		}
 		System.out.println("MLFB done... ");
 
-		
-		
 		final XYSeriesCollection dataset = new XYSeriesCollection();
 		dataset.addSeries(series1);
 		dataset.addSeries(series2);
+		dataset.addSeries(series21);
+		dataset.addSeries(series22);
 		dataset.addSeries(series3);
 		dataset.addSeries(series4);
+		dataset.addSeries(series41);
 
 		return dataset;
 	}
 
 	private JFreeChart createChart(final XYDataset dataset) {
-		final JFreeChart chart = ChartFactory.createXYLineChart(applicationTitle,
-				"Bedieningstijd", // x axis label
+		final JFreeChart chart = ChartFactory.createXYLineChart(applicationTitle, "Bedieningstijd", // x
+																									// axis
+																									// label
 				"Genormaliseerde omlooptijd", // y axis label
 				dataset, // data
 				PlotOrientation.VERTICAL, true, // include legend
@@ -110,19 +147,21 @@ public class Grafiek extends ApplicationFrame {
 		plot.setDomainGridlinePaint(Color.white);
 		plot.setRangeGridlinePaint(Color.white);
 
-
 		final XYSplineRenderer renderer = new XYSplineRenderer(); // smoother?
-		renderer.setSeriesShapesVisible(0, false);
-		renderer.setSeriesShapesVisible(1, false);
-		renderer.setSeriesShapesVisible(2, false);
-		renderer.setSeriesShapesVisible(3, false);
+		renderer.setSeriesShapesVisible(0, true);
+		renderer.setSeriesShapesVisible(1, true);
+		renderer.setSeriesShapesVisible(2, true);
+		renderer.setSeriesShapesVisible(3, true);
+		renderer.setSeriesShapesVisible(4, true);
+		renderer.setSeriesShapesVisible(5, true);
+		renderer.setSeriesShapesVisible(6, true);
 		plot.setRenderer(renderer);
 
-		final LogarithmicAxis bedAxis= new LogarithmicAxis("Bedieningstijd");
+		final LogarithmicAxis bedAxis = new LogarithmicAxis("Bedieningstijd");
 		bedAxis.setStandardTickUnits(LogarithmicAxis.createStandardTickUnits());
-		final LogarithmicAxis rangeAxis= new LogarithmicAxis("Genormaliseerde omlooptijd");
+		final LogarithmicAxis rangeAxis = new LogarithmicAxis("Genormaliseerde omlooptijd");
 		rangeAxis.setStandardTickUnits(LogarithmicAxis.createStandardTickUnits());
-		
+
 		plot.setDomainAxis(bedAxis);
 		plot.setRangeAxis(rangeAxis);
 		// change the auto tick unit selection to integer units only...

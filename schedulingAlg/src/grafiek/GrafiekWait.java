@@ -50,10 +50,24 @@ public class GrafiekWait extends ApplicationFrame {
 		
 		
 
-		p = new Percentiel(alg.getRR());
-		final XYSeries series2 = new XYSeries("RR");
+		p = new Percentiel(alg.getRR2());
+		final XYSeries series2 = new XYSeries("RR (q=2)");
 		for (int i = 0; i < 100; i++) {
 			series2.add(p.getProces(i).getServicetime(), p.getProces(i).getWaittime());
+		}
+		System.out.print("RR done, ");
+		
+		p = new Percentiel(alg.getRR4());
+		final XYSeries series21 = new XYSeries("RR (q=4)");
+		for (int i = 0; i < 100; i++) {
+			series21.add(p.getProces(i).getServicetime(), p.getProces(i).getWaittime());
+		}
+		System.out.print("RR done, ");
+		
+		p = new Percentiel(alg.getRR8());
+		final XYSeries series22 = new XYSeries("RR (q=8)");
+		for (int i = 0; i < 100; i++) {
+			series22.add(p.getProces(i).getServicetime(), p.getProces(i).getWaittime());
 		}
 		System.out.print("RR done, ");
 
@@ -68,10 +82,17 @@ public class GrafiekWait extends ApplicationFrame {
 
 		
 		
-		p = new Percentiel(alg.getMLFB());
-		final XYSeries series4 = new XYSeries("MLFB");
+		p = new Percentiel(alg.getMLFB0());
+		final XYSeries series4 = new XYSeries("MLFB (q=i)");
 		for (int i = 0; i < 100; i++) {
 			series4.add(p.getProces(i).getServicetime(), p.getProces(i).getWaittime());
+		}
+		System.out.println("MLFB done... ");
+		
+		p = new Percentiel(alg.getMLFB1());
+		final XYSeries series41 = new XYSeries("MLFB (q=2^i)");
+		for (int i = 0; i < 100; i++) {
+			series41.add(p.getProces(i).getServicetime(), p.getProces(i).getWaittime());
 		}
 		System.out.println("MLFB done... ");
 
