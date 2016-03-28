@@ -7,6 +7,8 @@ import org.jfree.chart.axis.LogarithmicAxis;
 import org.jfree.ui.ApplicationFrame;
 import scheduling.Algoritmen;
 import scheduling.Percentiel;
+
+import org.jfree.chart.plot.DefaultDrawingSupplier;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
@@ -15,6 +17,7 @@ import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import java.awt.Color;
+import java.awt.Paint;
 
 public class GrafiekWait extends ApplicationFrame {
 	private static final long serialVersionUID = -5826676505576415011L;
@@ -123,6 +126,12 @@ public class GrafiekWait extends ApplicationFrame {
 
 		// NOW DO SOME OPTIONAL CUSTOMISATION OF THE CHART...
 		chart.setBackgroundPaint(Color.white);
+		chart.getPlot().setDrawingSupplier(new DefaultDrawingSupplier( 
+				new Paint[] { Color.RED, Color.BLUE, Color.CYAN, Color.BLACK, Color.MAGENTA, Color.ORANGE, Color.GREEN }, 
+				DefaultDrawingSupplier.DEFAULT_OUTLINE_PAINT_SEQUENCE, 
+				DefaultDrawingSupplier.DEFAULT_STROKE_SEQUENCE, 
+				DefaultDrawingSupplier.DEFAULT_OUTLINE_STROKE_SEQUENCE, 
+				DefaultDrawingSupplier.DEFAULT_SHAPE_SEQUENCE));
 
 		// get a reference to the plot for further customisation...
 		final XYPlot plot = chart.getXYPlot();
