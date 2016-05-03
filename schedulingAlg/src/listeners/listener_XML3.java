@@ -33,13 +33,13 @@ public class listener_XML3 implements ActionListener {
 		System.out.println();
 
 		System.out.print("Eerste grafiek genereren... ");
-		Grafiek g = new Grafiek("norRunTime", alg);
+		Grafiek g = new Grafiek("Genormaliseerde omlooptijd", alg);
 		ChartPanel chart = g.getChartPanel();
 		waitEnNorTime.add(chart);
 		
 
 		System.out.print("Tweede grafiek genereren... ");
-		GrafiekWait g2 = new GrafiekWait("waitTime", alg);
+		GrafiekWait g2 = new GrafiekWait("Wachttijd", alg);
 		ChartPanel chart2 = g2.getChartPanel();
 		waitEnNorTime.add(chart2);
 		

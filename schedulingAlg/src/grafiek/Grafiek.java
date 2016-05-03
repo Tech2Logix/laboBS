@@ -140,10 +140,10 @@ public class Grafiek extends ApplicationFrame {
 	}
 
 	private JFreeChart createChart(final XYDataset dataset) {
-		final JFreeChart chart = ChartFactory.createXYLineChart(applicationTitle, "Bedieningstijd", // x
+		final JFreeChart chart = ChartFactory.createXYLineChart(applicationTitle, "Gemiddelde bedieningstijd", // x
 																									// axis
 																									// label
-				"Genormaliseerde omlooptijd", // y axis label
+				"Gemiddelde genormaliseerde omlooptijd", // y axis label
 				dataset, // data
 				PlotOrientation.VERTICAL, true, // include legend
 				true, // tooltips
@@ -173,9 +173,9 @@ public class Grafiek extends ApplicationFrame {
 		renderer.setBaseLinesVisible(true);
 		plot.setRenderer(renderer);
 
-		final LogarithmicAxis bedAxis = new LogarithmicAxis("Bedieningstijd");
+		final LogarithmicAxis bedAxis = new LogarithmicAxis("Gemiddelde bedieningstijd");
 		bedAxis.setStandardTickUnits(LogarithmicAxis.createStandardTickUnits());
-		final LogarithmicAxis rangeAxis = new LogarithmicAxis("Genormaliseerde omlooptijd");
+		final LogarithmicAxis rangeAxis = new LogarithmicAxis("Gemiddelde genormaliseerde omlooptijd");
 		rangeAxis.setStandardTickUnits(LogarithmicAxis.createStandardTickUnits());
 
 		plot.setDomainAxis(bedAxis);

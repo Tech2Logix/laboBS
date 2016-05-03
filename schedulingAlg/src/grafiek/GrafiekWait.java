@@ -116,8 +116,8 @@ public class GrafiekWait extends ApplicationFrame {
 
 	private JFreeChart createChart(final XYDataset dataset) {
 		final JFreeChart chart = ChartFactory.createXYLineChart(applicationTitle,
-				"Bedieninstijd", // x axis label
-				"WachtT  tijd", // y axis label
+				"Gemiddelde bedieningstijd", // x axis label
+				"Gemiddelde wachttijd", // y axis label
 				dataset, // data
 				PlotOrientation.VERTICAL, true, // include legend
 				true, // tooltips
@@ -148,9 +148,9 @@ public class GrafiekWait extends ApplicationFrame {
 
 
 
-		final LogarithmicAxis bedAxis= new LogarithmicAxis("Bedieningstijd");
+		final LogarithmicAxis bedAxis= new LogarithmicAxis("Gemiddelde bedieningstijd");
 		bedAxis.setStandardTickUnits(LogarithmicAxis.createStandardTickUnits());
-		final LogarithmicAxis rangeAxis= new LogarithmicAxis("Wachttijd");
+		final LogarithmicAxis rangeAxis= new LogarithmicAxis("Gemiddelde wachttijd");
 		rangeAxis.setStandardTickUnits(LogarithmicAxis.createStandardTickUnits());
 		
 		plot.setDomainAxis(bedAxis);
